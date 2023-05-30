@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="5d7040a3-ef7f-4961-8b0e-0980c3653d20" ChangeDateTime="10/03/2022 13:45:39">
+    <Property Name="ElementName" Value="[dbo].[Events].[date]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="event_date" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a3b604d4-1c42-45e0-a10a-8042199ec575" ChangeDateTime="10/03/2022 13:47:13">
+    <Property Name="ElementName" Value="[dbo].[Events].[registrationURL]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="registration_url" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4fcb447e-fdca-4322-a099-c89eb997de06" ChangeDateTime="10/03/2022 13:47:16">
+    <Property Name="ElementName" Value="[dbo].[Events].[scheduleURL]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="schedule_url" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3d7adaeb-bc5d-44c6-b18d-6cab6571f83a" ChangeDateTime="10/03/2022 13:47:24">
+    <Property Name="ElementName" Value="[dbo].[Events].[speakerListURL]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="speaker_list_url" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="485fef7f-c161-4b0c-bb84-8d0ad91657cd" ChangeDateTime="10/03/2022 13:47:28">
+    <Property Name="ElementName" Value="[dbo].[Events].[volunteerURL]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="volunteer_url" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f5907dfd-7527-4887-8ef4-9913c00846b0" ChangeDateTime="10/03/2022 13:47:34">
+    <Property Name="ElementName" Value="[dbo].[Events].[hide]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="hide_top_logo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="73a6db38-feb9-4f48-b2af-6bd91daa47a4" ChangeDateTime="10/03/2022 13:50:43">
+    <Property Name="ElementName" Value="[dbo].[Users].[twitter]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Users]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="twitter_url" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5dab486e-6ee5-4cb3-a0c0-f0315a1ffd0a" ChangeDateTime="10/03/2022 14:00:54">
+    <Property Name="ElementName" Value="[dbo].[Sponsors].[image]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sponsors]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="image_url" />
+  </Operation>
+</Operations>

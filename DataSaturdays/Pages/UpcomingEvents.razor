@@ -1,0 +1,59 @@
+﻿@page "/upcomingevents"
+@inject IEventService eventService
+
+
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center heading text-uppercase">Data Saturdays Events</div>
+    <div class="row">
+        <div class="col-1">
+            <div class="form-group">
+                <label> Show </label>
+                <select class="form-control" >
+                    @foreach(var number in filterNumbers)
+                    {
+                        <option value="@number">@number</option>
+                    }
+                </select>
+              
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="list-group-item">
+        <div class="row d-flex justify-content-between">
+            @foreach(var item in header)
+            {
+                <div class="col mx-3">
+                    <h6> <strong>@item </strong></h6>
+                </div>
+            }
+        </div>
+
+    @foreach(var item in Events)
+    {
+        <div class="row d-flex justify-content-between">
+            <div class="col mx-3">
+                @item.EventName
+            </div>
+            <div class="col">
+                @item.Date
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
+
+
+@code {
+    public IEnumerable<Event> Events { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Events =  await eventService.ExecuteAsync();
+    }
+
+    protected string[] header = new string[] { "Event", "Date" };
+    protected int[] filterNumbers = new int[] { 10, 20, 50, 100 };
+}

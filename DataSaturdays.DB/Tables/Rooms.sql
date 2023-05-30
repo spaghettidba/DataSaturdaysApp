@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Rooms]
+(
+	[room_id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [event_id] UNIQUEIDENTIFIER NOT NULL,
+    [name] NVARCHAR(128) NOT NULL, 
+    [URL] NVARCHAR(2000) NULL,
+    CONSTRAINT FK_Rooms_Events FOREIGN KEY (event_id) REFERENCES Events (event_id)
+)
