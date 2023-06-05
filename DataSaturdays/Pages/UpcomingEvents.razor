@@ -51,7 +51,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Events =  await eventService.ExecuteAsync();
+        Events =  await eventService.GetEventsAsync();
     }
 
     protected string[] header = new string[] { "Event", "Date" };

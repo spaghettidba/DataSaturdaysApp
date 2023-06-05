@@ -9,7 +9,7 @@ namespace DataSaturdays.Core.Services
 {
     public interface IEventService
     {
-        Task<IEnumerable<Event>> ExecuteAsync();
+        Task<IEnumerable<Event>> GetEventsAsync();
         Task CreateEvent(Event Input);
     }
 }
