@@ -29,10 +29,10 @@ builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 
-builder.Services.AddDbContext<IMSContext>(options =>
-{
-    options.UseInMemoryDatabase(builder.Configuration.GetConnectionString("IMS"));
-});
+//builder.Services.AddDbContext<IMSContext>(options =>
+//{
+//    options.UseInMemoryDatabase(builder.Configuration.GetConnectionString("IMS"));
+//});
 
 var app = builder.Build();
 

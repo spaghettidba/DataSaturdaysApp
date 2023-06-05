@@ -56,4 +56,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="image_url" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="82c69638-874a-496d-b4a7-60e1937c7a46" ChangeDateTime="05/31/2023 14:49:35">
+    <Property Name="ElementName" Value="[dbo].[Events].[sponsor_packling]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="sponsorpack_link" />
+  </Operation>
 </Operations>

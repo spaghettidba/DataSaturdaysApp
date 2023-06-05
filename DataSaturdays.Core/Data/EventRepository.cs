@@ -11,11 +11,10 @@ namespace DataSaturdays.Core.Data
 {
     public class EventRepository : IEventRepository
     {
-        private readonly IMSContext _db;
-        public EventRepository(IMSContext db)
+
+        public EventRepository()
         {
-            _db = db;
-            _db.Database.EnsureCreated();
+
         } 
 
         public async Task CreateEvent(Event Input)
@@ -26,17 +25,16 @@ namespace DataSaturdays.Core.Data
                 Input.Date = DateTime.Now;
                 
                 newEvent.Id = Input.Id;
-                newEvent.Title = Input.Title;
                 newEvent.Description = Input.Description;
-                newEvent.EventName = Input.EventName;
+                newEvent.Name = Input.Name;
                 newEvent.Date = Input.Date;
                 newEvent.RegistrationURL = Input.RegistrationURL;
                 newEvent.ScheduleURL = Input.ScheduleURL;
                 newEvent.SpeakerListURL = Input.SpeakerListURL;
                 newEvent.VolunteerRequestURL = Input.VolunteerRequestURL;
-                _db.Add(Input);
-                await _db.SaveChangesAsync();
-                
+
+                throw new NotImplementedException("Not Implemented");
+
             }
             catch(Exception ex)
             {
@@ -47,7 +45,7 @@ namespace DataSaturdays.Core.Data
 
         public async Task<IEnumerable<Event>> GetEvents()
         {
-            return await _db.Events.ToListAsync();
+            throw new NotImplementedException("Not Implemented");
         }
     }
 }

@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSaturdays", "DataSaturd
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSaturdays.Core", "DataSaturdays.Core\DataSaturdays.Core.csproj", "{2C7C2374-C094-48D3-9806-843009E1A671}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Datasaturdays.DB", "Datasaturdays.DB\DataSaturdays.DB.sqlproj", "{C192693C-194E-497A-B69C-14BFF8F5C82C}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DataSaturdays.DB", "Datasaturdays.DB\DataSaturdays.DB.sqlproj", "{C192693C-194E-497A-B69C-14BFF8F5C82C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSaturdaysWebsite", "DataSaturdaysWebsite\DataSaturdaysWebsite.csproj", "{CE81EF1C-7606-4B1F-A354-B502E615E9C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,7 +18,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DE89A496-3906-4AF6-B7F0-3C108A6DD146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE89A496-3906-4AF6-B7F0-3C108A6DD146}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE89A496-3906-4AF6-B7F0-3C108A6DD146}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE89A496-3906-4AF6-B7F0-3C108A6DD146}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2C7C2374-C094-48D3-9806-843009E1A671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -29,6 +30,10 @@ Global
 		{C192693C-194E-497A-B69C-14BFF8F5C82C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C192693C-194E-497A-B69C-14BFF8F5C82C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C192693C-194E-497A-B69C-14BFF8F5C82C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{CE81EF1C-7606-4B1F-A354-B502E615E9C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE81EF1C-7606-4B1F-A354-B502E615E9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE81EF1C-7606-4B1F-A354-B502E615E9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE81EF1C-7606-4B1F-A354-B502E615E9C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

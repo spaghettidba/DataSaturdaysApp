@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [dbo].[UserOrganizations]
 (
-	[user_id] INT NOT NULL 
+	[user_id] UNIQUEIDENTIFIER NOT NULL 
 		CONSTRAINT FK_users_organizations_u
 		FOREIGN KEY (user_id) 
 		REFERENCES Users,
-	[organization_id] int NOT NULL 
+	[organization_id] INT NOT NULL 
 		CONSTRAINT FK_users_organizations_o
 		FOREIGN KEY (organization_id) 
 		REFERENCES Organizations

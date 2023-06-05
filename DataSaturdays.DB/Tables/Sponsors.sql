@@ -3,7 +3,7 @@
 	[sponsor_id] INT NOT NULL PRIMARY KEY, 
     [event_id] UNIQUEIDENTIFIER NOT NULL,
     [name] NVARCHAR(128) NOT NULL, 
-    [image_url] NVARCHAR(2000) NULL, 
+    [image_url] VARCHAR(2000) NULL, 
     [image_bin] VARBINARY(MAX) NULL, 
     [link_url] VARCHAR(2000) NULL, 
     [height_px] INT NULL,

@@ -74,6 +74,8 @@
     <Build Include="Tables\Organizers.sql" />
     <Build Include="Tables\Rooms.sql" />
     <Build Include="Tables\Sponsors.sql" />
+    <Build Include="Tables\Milestones.sql" />
+    <Build Include="Tables\Precons.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Datasaturdays.DB.refactorlog" />
