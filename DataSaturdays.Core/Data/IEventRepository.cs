@@ -10,6 +10,7 @@ namespace DataSaturdays.Core.Data
     public interface IEventRepository
     {
         Task<IEnumerable<Event>> GetEvents();
+        Task<Event> GetEventByIdAsync(Guid eventId);
         Task CreateEvent(Event Input);
 
     }

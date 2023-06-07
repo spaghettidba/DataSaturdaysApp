@@ -18,6 +18,6 @@
     [code_of_conduct] NVARCHAR(MAX) NULL, 
     [sponsor_benefits] NVARCHAR(MAX) NULL, 
     [sponsor_menuitem] BIT NULL, 
-    [sponsorpack_link] VARCHAR(2000) NULL 
-
+    [sponsorpack_link] VARCHAR(2000) NULL,
+    [precon_description] nvarchar(max) NULL
 )

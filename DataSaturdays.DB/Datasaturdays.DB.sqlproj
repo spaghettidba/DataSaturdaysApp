@@ -80,4 +80,7 @@
   <ItemGroup>
     <RefactorLog Include="Datasaturdays.DB.refactorlog" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="DataSaturdays.DB.publish.xml" />
+  </ItemGroup>
 </Project>

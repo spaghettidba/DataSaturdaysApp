@@ -37,9 +37,9 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 var app = builder.Build();
 
 var scope = app.Services.CreateScope();
-var imsContext = scope.ServiceProvider.GetRequiredService<IMSContext>();
-imsContext.Database.EnsureDeleted();
-imsContext.Database.EnsureCreated();
+//var imsContext = scope.ServiceProvider.GetRequiredService<IMSContext>();
+//imsContext.Database.EnsureDeleted();
+//imsContext.Database.EnsureCreated();
 
 
 

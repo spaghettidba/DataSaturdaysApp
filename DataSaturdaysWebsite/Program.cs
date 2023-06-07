@@ -1,3 +1,4 @@
+using Dapper;
 using DataSaturdays.Core.Data;
 using DataSaturdays.Core.Services;
 
@@ -6,12 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-
-
 // Add custom stuff
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 
+// Dapper type handlers
+SqlMapper.AddTypeHandler(new DapperUriTypeHandler());
 
 var app = builder.Build();
 

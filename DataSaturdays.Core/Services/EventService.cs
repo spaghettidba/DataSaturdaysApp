@@ -21,9 +21,16 @@ namespace DataSaturdays.Core.Services
              await _eventRepository.CreateEvent(Input);
         }
 
+        public async Task<Event> GetEventByIdAsync(Guid eventId)
+        {
+            return await _eventRepository.GetEventByIdAsync(eventId);
+        }
+
         public async Task<IEnumerable<Event>> GetEventsAsync()
         {
             return await _eventRepository.GetEvents();
         }
+
+
     }
 }
