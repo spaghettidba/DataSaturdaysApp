@@ -51,34 +51,112 @@ namespace DataSaturdays.Core.Data
 
         public async Task<Event> GetEventByIdAsync(Guid eventId)
         {
-            const string query = @"
+            string query =
+                """
                 SELECT 
-                    E.event_id AS Id,
+                    E.event_id                  AS Id,
                     E.name,
-                    E.event_date AS [Date],
+                    E.event_date                AS [Date],
                     E.virtual,
                     E.description,
-                    E.registration_url AS RegistrationURL,
-                    E.callforspeakers_url AS CallForSpeakersURL,
-                    E.schedule_url AS ScheduleURL,
-                    E.speaker_list_url AS SpeakerListURL, 
-                    E.volunteer_url AS VolunteerRequestrURL, 
-                    E.hide_top_logo AS HideTopLogo, 
-                    E.hide_join_room AS HideJoinRoom, 
+                    E.registration_url          AS RegistrationURL,
+                    E.callforspeakers_url       AS CallForSpeakersURL,
+                    E.schedule_url              AS ScheduleURL,
+                    E.speaker_list_url          AS SpeakerListURL, 
+                    E.volunteer_url             AS VolunteerRequestrURL, 
+                    E.hide_top_logo             AS HideTopLogo, 
+                    E.hide_join_room            AS HideJoinRoom, 
                     E.open_registration_new_tab AS OpenRegistrationNewTab, 
-                    E.schedule_app AS ScheduleApp, 
-                    E.venue_map AS VenueMap, 
-                    E.code_of_conduct AS CodeOfConduct, 
-                    E.sponsor_benefits AS SponsorBenefits, 
-                    E.sponsor_menuitem AS SponsorMenuItem, 
-                    E.sponsorpack_link AS SponsorPackLink
+                    E.schedule_app              AS ScheduleApp, 
+                    E.venue_map                 AS VenueMap, 
+                    E.code_of_conduct           AS CodeOfConduct, 
+                    E.sponsor_benefits          AS SponsorBenefits, 
+                    E.sponsor_menuitem          AS SponsorMenuItem, 
+                    E.precon_description        AS PreconDescription
                 FROM Events AS E
-                WHERE E.event_id = @event_id
+                WHERE E.event_id = @eventId
                 ORDER BY E.event_date DESC
-            ";
+                """;
 
-            using var connection = new SqlConnection(_connectionString);
-            return await connection.QueryFirstOrDefaultAsync<Event>(query, new { eventId });
+            Event evt = null;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                evt = await connection.QueryFirstOrDefaultAsync<Event>(query, new { eventId });
+
+                query =
+                    """
+                    SELECT 
+                        P.precon_id         AS Id,
+                        P.name              AS Name,
+                        P.description       AS Description,
+                        P.registration_url  AS RegistrationUrl,
+                        --------------------------------------
+                        S.speaker_order,    -- SPLIT
+                        S.speaker_name AS Name, 
+                        S.speaker_url AS Profile, 
+                        S.speaker_img AS [Image]
+                    FROM Precons AS P
+                    OUTER APPLY (
+                        SELECT *
+                        FROM (
+                            VALUES 
+                                (1, P.speaker1_name, P.speaker1_url, P.speaker1_img),
+                                (2, P.speaker2_name, P.speaker2_url, P.speaker2_img),
+                                (3, P.speaker3_name, P.speaker3_url, P.speaker3_img),
+                                (4, P.speaker4_name, P.speaker4_url, P.speaker4_img)
+                        ) AS S (speaker_order, speaker_name, speaker_url, speaker_img)
+                        WHERE COALESCE(speaker_name, speaker_url, speaker_img) IS NOT NULL
+                    ) AS S
+                    WHERE P.event_id = @eventId
+                    """;
+
+
+                var precons = await connection.QueryAsync<Precon, Speaker, Precon>(query, (p, s) => { p.Speakers.Add(s); return p; }, new { eventId }, splitOn: "speaker_order");
+                evt.Precons.AddRange(precons);
+
+                query =
+                    """
+                    SELECT 
+                        R.room_id  AS Id, 
+                        R.name     AS Name,
+                        R.URL      AS JoinURL
+                    FROM Rooms AS R
+                    WHERE R.event_id = @eventId
+                    """;
+                var rooms = await connection.QueryAsync<Room>(query, new { eventId });
+                evt.Rooms.AddRange(rooms);
+
+                query =
+                    """
+                    SELECT 
+                        M.milestone_id        AS Id,
+                        M.[order]             AS [Order],
+                        M.name                AS Name,
+                        M.milestone_date      AS [Date],
+                        M.milestone_date_text AS [DateText]
+                    FROM Milestones AS M
+                    WHERE M.event_id = @eventId
+                    """;
+
+                var milestones = await connection.QueryAsync<Milestone>(query, new { eventId });
+                evt.Milestones.AddRange(milestones);
+
+                query =
+                    """"
+                    SELECT 
+                        O.organizer_id      AS Id,
+                        O.name              AS Name,
+                        O.email             AS Email,
+                        O.twitter           AS Twitter
+                    FROM Organizers AS O
+                    WHERE O.event_id = @eventId
+                    """";
+
+                var organizers = await connection.QueryAsync<Organizer>(query, new { eventId });
+                evt.Organizers.AddRange(organizers);
+
+            }
+            return evt;
         }
 
         public async Task<IEnumerable<Event>> GetEvents()
@@ -102,8 +180,7 @@ namespace DataSaturdays.Core.Data
                     E.venue_map AS VenueMap, 
                     E.code_of_conduct AS CodeOfConduct, 
                     E.sponsor_benefits AS SponsorBenefits, 
-                    E.sponsor_menuitem AS SponsorMenuItem, 
-                    E.sponsorpack_link AS SponsorPackLink
+                    E.sponsor_menuitem AS SponsorMenuItem
                 FROM Events AS E
                 ORDER BY E.event_date DESC
             ";

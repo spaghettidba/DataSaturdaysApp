@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Html;
 
 namespace DataSaturdays.Core.Entities
 {
@@ -29,12 +30,14 @@ namespace DataSaturdays.Core.Entities
         public string CodeOfConduct { get; set; }
         public string SponsorBenefits { get; set; }
         public bool SponsorMenuItem { get; set; }
-        public Uri? SponsorPackLink { get; set; }
 
-        public List<Room>? Rooms { get; set; }
-        public List<Milestone>? Milestones { get; set; }
-        public List<Sponsor>? Sponsors { get; set; }
-        public List<Precon>? Precons { get; set; }
+        public string PreconDescription { get; set; }
+
+        public List<Room>? Rooms { get; set; } = new();
+        public List<Milestone>? Milestones { get; set; } = new();
+        public List<Sponsor>? Sponsors { get; set; } = new();
+        public List<Precon>? Precons { get; set; } = new();
+        public List<Organizer>? Organizers { get; set; } = new();
     }
 }
 

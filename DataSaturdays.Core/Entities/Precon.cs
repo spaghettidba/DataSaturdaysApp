@@ -15,6 +15,6 @@ namespace DataSaturdays.Core.Entities
         public string Description { get; set; }
         public Uri? RegistrationUrl { get; set; }
 
-        public List<Speaker> Speakers { get; set; } // max 4
+        public List<Speaker> Speakers { get; set; } = new(); // max 4
     }
 }

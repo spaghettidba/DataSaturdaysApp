@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Data Saturdays website" />
     <meta name="author" content="" />
-    <title>TODO: aggiungere titolo</title>
+    <title>@Model.Event.Name</title>
 
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon.ico" />
 
@@ -38,9 +38,9 @@
 
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark" id="mainNav">
-        <a class="navbar-brand js-scroll-trigger text-truncate" title="#34  RHEINLAND 2023" href="#page-top">
+        <a class="navbar-brand js-scroll-trigger text-truncate" title="@Model.Event.Name" href="#page-top">
             <img src="../assets/img/nav-logo.png" alt="" />
-            #34  RHEINLAND 2023
+            @Model.Event.Name
         </a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
@@ -49,7 +49,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav text-uppercase ml-auto">
                 <li class="nav-item text-truncate">
-                    <a class="nav-link js-scroll-trigger" href="../index.html">DataSaturdays home</a>
+                    <a class="nav-link js-scroll-trigger" href="/">DataSaturdays home</a>
                 </li>
                 <li class="nav-item text-truncate">
                     <a class="nav-link js-scroll-trigger" href="#schedule">Schedule</a>
