@@ -168,20 +168,23 @@ Get-ChildItem "C:\GitHub\DataSaturdays\_data\events\" | % {
                     $sponsor.Add("sponsor_id",(new-guid))
                 }
 
-                $dt = ([pscustomobject]$sponsor) | ConvertTo-DbaDataTable
-                
-                $filteredColMap = @{}
+                if(-not ((-not $sponsor.ContainsKey("image")) -and (-not $sponsor.ContainsKey("link")) -and (-not $sponsor.ContainsKey("width")) -and (-not $sponsor.ContainsKey("height")))) {
 
-                $theKeys = $sponsorColMap.Keys | Where-Object {$sponsor.ContainsKey($_)}
-                $theKeys | % {$filteredColMap.Add($_,$sponsorColMap[$_])}
+                    $dt = ([pscustomobject]$sponsor) | ConvertTo-DbaDataTable
+                    
+                    $filteredColMap = @{}
 
-                #$dt
-                try {
-                $dt | Write-DbaDataTable -SqlInstance "localhost" -Database "datasaturdays" -Table "sponsors" -ColumnMap $filteredColMap -EnableException
-                }
-                catch {
-                    $_
-                    $currentFile
+                    $theKeys = $sponsorColMap.Keys | Where-Object {$sponsor.ContainsKey($_)}
+                    $theKeys | % {$filteredColMap.Add($_,$sponsorColMap[$_])}
+
+                    #$dt
+                    try {
+                    $dt | Write-DbaDataTable -SqlInstance "localhost" -Database "datasaturdays" -Table "sponsors" -ColumnMap $filteredColMap -EnableException
+                    }
+                    catch {
+                        $_
+                        $currentFile
+                    }
                 }
             }
         }
@@ -189,6 +192,16 @@ Get-ChildItem "C:\GitHub\DataSaturdays\_data\events\" | % {
 
 }
 
+
+# Fix sposnsors
+
+$sql ="
+UPDATE s SET link_url = NULL
+FROM Sponsors AS s
+WHERE link_url NOT LIKE 'http%';
+
+"
+Invoke-DbaQuery -SqlInstance "localhost" -Database "datasaturdays" -Query $sql
 
 
 

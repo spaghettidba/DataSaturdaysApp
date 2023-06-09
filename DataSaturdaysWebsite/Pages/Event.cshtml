@@ -107,81 +107,35 @@
             <div class="row justify-content-center">
                 @if (Model.Event.SponsorMenuItem == true)
                 {
+                    <h2 class="section-heading text-uppercase">Sponsorship Benefits</h2>
                     @Html.Raw(Model.Event.SponsorBenefits)
                 }
             </div>
             
             <h2 class="section-heading text-uppercase">Sponsors</h2>
-            @if (Model.Event.Sponsors != null)
+            @if (Model.Event.Sponsors?.Any() == true)
             {
-                <p style="text-align:center;font-size:2.5rem;color: dimgrey;margin-top: 35px;">
-                    <b>YOU ROCK!</b>
-                </p>
+                @foreach (var sponsor in Model.Event.Sponsors.OrderBy(s => s.Level))
+                {
+                    var lev = "";
+                    @if(lev != null && lev.Equals(sponsor.Level,StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        <p style="text-align:center;font-size:2.5rem;color: dimgrey;margin-top: 35px;">
+                            <b>@sponsor.Level</b>
+                        </p>
+                    }
 
-                <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                    <a href="">
+                    lev = sponsor.Level;
 
-                        <img src="" height="" />
+                    <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
+                        <a href="@sponsor.LinkURL">
 
-                    </a>
-                </div>
-                <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                    <a href="https://www.solisyon.de">
-
-                        <img src="https://github.com/bweissman/sponsorlogos/raw/main/datasaturdays/rheinland2023/solisyon.png" height="75" />
-
-                    </a>
-                </div>
-                <p style="text-align:center;font-size:2.5rem;color: dimgrey;margin-top: 35px;">
-                    <b>GOLD</b>
-                </p>
-
-                <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                    <a href="">
-
-                        <img src="" height="" />
+                        <img src="@sponsor.ImageURL" height="@sponsor.Height" />
 
                     </a>
-                </div>
-                <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                    <a href="https://oh22.is/">
-
-                        <img src="https://oh22.is/wp-content/uploads/sites/14/2021/02/oh22_Logo_grau_75.png" height="75" />
-
-                    </a>
-                </div>
-                <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                    <a href="https://melissa.com/">
-
-                        <img src="https://github.com/bweissman/sponsorlogos/raw/main/datasaturdays/rheinland2023/melissa.jpg" height="75" />
-
-                    </a>
-                </div>
-                <p style="text-align:center;font-size:2.5rem;color: dimgrey;margin-top: 35px;">
-                    <b>SILVER</b>
-                </p>
-
-                <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                    <a href="">
-
-                        <img src="" height="" />
-
-                    </a>
-                </div>
-                <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                    <a href="https://www.red-gate.com/">
-
-                        <img src="https://github.com/bweissman/sponsorlogos/raw/main/datasaturdays/rheinland2023/redgate.png" height="75" />
-
-                    </a>
-                </div>
-                <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                    <a href="https://gds-business-intelligence.de/">
-
-                    <img src="https://github.com/bweissman/sponsorlogos/raw/main/datasaturdays/rheinland2023/GDS.jpg" height="75" />
-
-                </a>
-                </div>
+                    </div>
+                }
+                
             }
 
         </div>
@@ -195,18 +149,25 @@
 
 <!-- Speakers -->
 <section class="page-section" id="speakers">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Speakers</h2>
-            <div class="alert alert-light" role="alert">
-                <p>
-                    
-                    <script type="text/javascript" src="@Model.Event.CallForSpeakersURL"></script>
-
-                </p>
-            </div>
-        </div>
+  <div class="container">
+    <div class="text-center">
+      <h2 class="section-heading text-uppercase">Speakers</h2>
+      <div class="alert alert-light" role="alert">
+        <p>
+            @if(Model.Event.SpeakerListURL != null)
+            {
+                <script type="text/javascript" src="@Model.Event.SpeakerListURL"></script>
+            }
+            else
+            {
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@Model.Event.CallForSpeakersURL">
+                    Submit your session
+                </a>
+            }
+        </p>
+      </div>
     </div>
+  </div>
 </section>
 
 <!--Volunteers-->
@@ -229,25 +190,17 @@
 <section class="page-section" id="contact">
     <div class="container">
         <div class="text-center">
-            <h2 class="section-heading text-uppercase">Contact</h2><div class="alert alert-light" role="alert">
-                <p>
-                    <b>Organizer:</b> Tillmann Eitelberg
-                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/_Tillmann"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="mailto:tei@sqlpass.de"><i class="far fa-envelope"></i></a>
-                </p>
-            </div><div class="alert alert-light" role="alert">
-                <p>
-                    <b>Organizer:</b> Oliver Engels
-                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/oengels"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="mailto:oen@sqlpass.de"><i class="far fa-envelope"></i></a>
-                </p>
-            </div><div class="alert alert-light" role="alert">
-                <p>
-                    <b>Organizer:</b> Ben Weissman (he/him)
-                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/bweissman"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-dark btn-social mx-2" href="mailto:bwe@sqlpass.de"><i class="far fa-envelope"></i></a>
-                </p>
-            </div>
+            <h2 class="section-heading text-uppercase">Contact</h2>
+            @foreach(var org in Model.Event.Organizers)
+            {
+                <div class="alert alert-light" role="alert">
+                    <p>
+                        <b>Organizer:</b> @org.Name
+                        <a class="btn btn-dark btn-social mx-2" href="@org.Twitter"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="@org.Email"><i class="far fa-envelope"></i></a>
+                    </p>
+                </div>
+            }            
         </div>
     </div>
 </section>

@@ -16,5 +16,6 @@ namespace DataSaturdays.Core.Entities
         public int Height { get; set; }
         public int MarginTop { get; set; }
         public int MarginBottom { get; set;}
+        public string Level { get; set; }
     }
 }

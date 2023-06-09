@@ -155,6 +155,24 @@ namespace DataSaturdays.Core.Data
                 var organizers = await connection.QueryAsync<Organizer>(query, new { eventId });
                 evt.Organizers.AddRange(organizers);
 
+                query =
+                    """"
+                    SELECT 
+                    	 S.sponsor_id AS Id
+                    	,S.sponsor_level AS [Level]
+                    	,S.image_url AS [ImageURL]
+                    	,S.image_bin AS [Image]
+                    	,S.link_url AS [Link]
+                    	,S.height_px AS [Height]
+                    	,S.width_px AS [Width]
+                    	,S.margin_top_px [Top]
+                    	,S.margin_bottom_px [Bottom]
+                    FROM Sponsors AS S
+                    WHERE S.event_id = @eventId
+                    """";
+
+                var sponsors = await connection.QueryAsync<Sponsor>(query, new { eventId });
+                evt.Sponsors.AddRange(sponsors);
             }
             return evt;
         }

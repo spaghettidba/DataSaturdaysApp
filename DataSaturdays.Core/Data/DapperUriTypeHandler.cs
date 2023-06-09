@@ -13,7 +13,12 @@ namespace DataSaturdays.Core.Data
 
         public override Uri Parse(object value)
         {
-            return new Uri((string)value);
+            Uri uri;
+            if(!Uri.TryCreate((string)value, UriKind.Absolute, out uri))
+            {
+                uri = new Uri((string)value, UriKind.Relative);
+            }
+            return uri;
         }
     }
 }
