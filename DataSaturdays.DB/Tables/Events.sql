@@ -14,6 +14,7 @@
     [hide_join_room] BIT NULL, 
     [open_registration_new_tab] BIT NULL, 
     [schedule_app] VARCHAR(2000) NULL, 
+    [schedule_description] NVARCHAR(MAX),
     [venue_map] VARCHAR(2000) NULL, 
     [code_of_conduct] NVARCHAR(MAX) NULL, 
     [sponsor_benefits] NVARCHAR(MAX) NULL, 

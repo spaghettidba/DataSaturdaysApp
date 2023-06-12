@@ -68,6 +68,7 @@ namespace DataSaturdays.Core.Data
                     E.hide_join_room            AS HideJoinRoom, 
                     E.open_registration_new_tab AS OpenRegistrationNewTab, 
                     E.schedule_app              AS ScheduleApp, 
+                    E.schedule_description      AS ScheduleDescription, 
                     E.venue_map                 AS VenueMap, 
                     E.code_of_conduct           AS CodeOfConduct, 
                     E.sponsor_benefits          AS SponsorBenefits, 

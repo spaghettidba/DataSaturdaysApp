@@ -18,6 +18,7 @@ namespace DataSaturdays.Core.Entities
         public Uri? RegistrationURL { get; set; }
         public Uri? CallForSpeakersURL { get; set; }
         public Uri? ScheduleURL { get; set; }
+        public Uri? ScheduleDesciption { get; set; }
         public Uri? SpeakerListURL { get; set; }
         public Uri? VolunteerRequestURL { get; set; }
         public bool HideTopLogo { get; set; }
