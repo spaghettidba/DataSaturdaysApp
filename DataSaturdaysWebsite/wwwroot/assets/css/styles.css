@@ -73,9 +73,10 @@ p {
   margin-bottom: 4rem;
 }
 
+
 @media (min-width: 768px) {
   section {
-    padding: 9rem 21rem 3rem 21rem;
+    padding: 3rem;
   }
 }
 ::-moz-selection {
@@ -221,7 +222,7 @@ header.masthead .masthead-heading {
 
 @media (min-width: 768px) {
   header.masthead {
-    padding-bottom: 12.5rem;
+    padding-bottom: 3rem;
   }
 
   header.masthead .masthead-subheading {

@@ -8,289 +8,299 @@
 }
 
 
-
-<!-- Masthead-->
-<header class="masthead mt-4" id="page-top">
-    <div class="container">
-
-        <img src="../assets/design/facebook/c.facebook%201r.png" alt="Data Saturdays" class="w-100 cover-image">
-
-        <div class="masthead-heading text-uppercase mt-4">@Model.Event.Name</div>
-        <div class="masthead-subheading">@Model.Event.Date.ToString("dd-MMMM-yyyy")</div>
-        
-        <div class="alert alert-light force-content-max-width" role="alert">
-            @Html.Raw(Model.Event.Description)
-        </div>
-        
-        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@Model.Event.RegistrationURL">
-            Register
-            now
-        </a>
-    </div>
-</header>
-
-
-<!-- About -->
-@if (Model.Event.Rooms?.Any() == true)
-{
-    <section class="page-section" id="join">
-            <div class="text-center">
-                <h2 class="section-heading text-uppercase">Rooms</h2>
-                <p>
-                    Click on the room you want to join. You can change rooms at any time to attend the sessions that you prefer.
-                </p>
-                @foreach (var room in Model.Event.Rooms)
+<div class="row">
+    <div class="col-md-10 offset-1">
+        <!-- Masthead-->
+        <header class="masthead mt-4" id="page-top">
+            <div class="row align-content-center">
+                @if (Model.Event.HideTopLogo != true)
                 {
-                    <div class="row justify-content-center">
-                        <p>
-                            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger mr-4" target="_blank"
-                               href="@room.JoinURL">@room.Name</a>
-                        </p>
+                    <div class="col-12">
+                        <img src="../assets/design/facebook/c.facebook%201r.png" alt="Data Saturdays" class="w-100 cover-image">
                     </div>
                 }
+                <div class="col-12 masthead-heading text-uppercase mt-4">@Model.Event.Name</div>
+                <div class="col-12 masthead-subheading">@Model.Event.Date.ToString("dd-MMMM-yyyy")</div>
+                
+                <div class="col-12 alert alert-light force-content-max-width" role="alert">
+                    @Html.Raw(Model.Event.Description)
+                </div>
+                <div class ="col-10 offset-1">
+                    <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@Model.Event.RegistrationURL">
+                        Register
+                        now
+                    </a>
+                </div>    
             </div>
-    </section>
-}
-
-
-<!-- Milestones -->
-<section class="page-section" id="milestones">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Milestones</h2>
-            @if (Model.Event.Milestones?.Any() == true)
-            {
-                <div class="alert alert-light" role="alert">
-                @foreach (var milestone in Model.Event.Milestones.OrderBy(s => s.Order))
-                {
-                    <div class="row justify-content-center"> <p style="text-align:left;font-size:1.5rem"> * <span style="color: #04be64;font-weight:bold">&#x2713;</span> 
-                           @if(milestone.Date != null)
-                           {
-                                <strong>@milestone.Date</strong>
+        </header>
+        
+        
+        <!-- About -->
+        @if (Model.Event.Rooms?.Any() == true)
+        {
+            <section class="page-section" id="join">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <h2 class="section-heading text-uppercase">Rooms</h2>
+                    </div>
+                    <div class="col-12">
+                        <p>
+                            Click on the room you want to join. You can change rooms at any time to attend the sessions that you prefer.
+                        </p>
+                    </div>
+                        @foreach (var room in Model.Event.Rooms)
+                        {
+                            <div class="col-12 justify-content-center">
+                                <p>
+                                    <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger mr-4" target="_blank"
+                                       href="@room.JoinURL">@room.Name</a>
+                                </p>
+                            </div>
+                        }
+                </div>
+            </section>
+        }
+        
+        
+        <!-- Milestones -->
+        @if (Model.Event.Milestones?.Any() == true)
+        {
+            <section class="page-section" id="milestones">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <h2 class="section-heading text-uppercase">Milestones</h2>
+                        </div>   
+                        <div class="col-7 alert alert-light offset-3" role="alert">
+                            <ul>
+                            @foreach (var milestone in Model.Event.Milestones.OrderBy(s => s.Order))
+                            {
+                                <li style="text-align:left;font-size:1.5rem">
+                                    <span style="color: #04be64;font-weight:bold">&#x2713;</span>
+                                    @if (milestone.Date != null)
+                                    {
+                                        <strong>@milestone.Date</strong>
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(milestone.DateText)
+                                    }
+                                    : @milestone.Name
+                                </li>
+                            }
+                            </ul>
+                        </div>
+                   </div>
+            </section>
+        }
+        
+        
+        <!-- Precon -->
+        @if ((Model.Event.Precons?.Any() == true) || (Model.Event.PreconDescription != null))
+        {
+            <section class="page-section" id="precon">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <h2 class="section-heading text-uppercase text-center">Pre-conference workshop</h2>
+                        </div>
+                        <div class="col-12 alert alert-light text-left" role="alert">
+                                @Html.Raw(Model.Event.PreconDescription)
+                        </div>
+                        <div class="col-12">
+                        @foreach (var precon in Model.Event.Precons)
+                        {
+                            <div style="width: auto; height: auto; border: 2px solid #aaa; display: box; box-pack: center; box-align: center; padding: 15px;">
+                                <p style="text-align: center; font-size: 1.5rem;"> @precon.Name </p>
+                                <p style="text-align: center; font-size: 1.3rem;">
+                                    with
+                                    @foreach (var preconSpeaker in precon.Speakers)
+                                    {
+                                        <a href="@preconSpeaker.Profile" target="_blank">@preconSpeaker.Name</a>
+                                        <img src="@preconSpeaker.Image" height="170" alt="@preconSpeaker.Name" style="margin-left: 35px; margin-right: 35px;border-radius: 50%;">
+                                    }
+                                </p>
+                                <p>@Html.Raw(precon.Description)</p>
+                                <br>
+                            <p style="text-align:center;">
+                                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@precon.RegistrationUrl" target="_blank">Register</a> 
+                            </p>
+                            </div>
+                        }
+                        </div>
+                    </div> 
+            </section>
+        }
+        
+        
+        <!-- Venue -->
+        @if (Model.Event.VenueMap != null)
+        {
+            <section class="page-section" id="venue">
+                    <div class="row text-center">
+                        <div class="col-12">
+                                <h2 class="section-heading text-uppercase text-center">Venue</h2>
+                        </div>
+                            <div class="col-12 alert alert-light" role="alert">
+                                <iframe src="@Model.Event.VenueMap" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                    </div>
+            </section>
+        }
+        
+        
+        <!-- Schedule -->
+        @if (Model.Event.ScheduleURL != null)
+        {
+            <section class="page-section" id="schedule">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <h2 class="section-heading text-uppercase">Schedule</h2>
+                        </div>
+                            <div class="col-12 alert alert-light" role="alert">
+                                @if ((Model.Event.ScheduleDescription != null) || (Model.Event.ScheduleApp != null))
+                                {
+                                    <p>@Html.Raw(Model.Event.ScheduleDescription)</p>
+                                    <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger\" href="@Model.Event.ScheduleApp" target="_blank">Download App</a>
+                                    }
+                                
+                                <p>
+                                    <iframe frameborder="0" STYLE="width: 100%;height:1900px" SRCDOC="<BODY><script type='text/javascript' src='@Model.Event.ScheduleURL'></script></BODY>">
+                                    </iframe>
+                                </p>
+                            </div>
+                    </div>
+            </section>
+        }           
+        
+        
+        <!-- Sponsors -->
+        <section class="page-section" id="sponsors">
+                <div class="row text-center">
+                    <div class="col-12 justify-content-center">
+                        @if (Model.Event.SponsorMenuItem == true)
+                        {
+                            <h2 class="section-heading text-uppercase">Sponsorship Benefits</h2>
+                            @Html.Raw(Model.Event.SponsorBenefits)
+                        }
+                    </div>
+                    <div class="col-12">
+                        <h2 class="section-heading text-uppercase">Sponsors</h2>
+                    </div>
+                    @if (Model.Event.Sponsors?.Any() == true)
+                    {
+                        <div class="col-12">
+                        @foreach (var sponsor in Model.Event.Sponsors.OrderBy(s => s.Level))
+                        {
+                            var lev = "";
+                            @if(lev != null && lev.Equals(sponsor.Level,StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                <p style="text-align:center;font-size:2.5rem;color: dimgrey;margin-top: 35px;">
+                                    <b>@sponsor.Level</b>
+                                </p>
+                            }
+        
+                            lev = sponsor.Level;
+        
+                            <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
+                                <a href="@sponsor.LinkURL">
+        
+                                <img src="@sponsor.ImageURL" height="@sponsor.Height" />
+        
+                            </a>
+                            </div>
+                        }
+                        </div>
+                    }
+                </div>
+                <div class="col-12 text-center mt-5">
+                    <p>
+                        If you want to sponsor this event <a href="#contact">get in touch with the organizers</a>
+                    </p>
+                </div>
+        </section>
+        
+        
+        <!-- Speakers -->
+        @if ((Model.Event.SpeakerListURL != null) || (Model.Event.CallForSpeakersURL != null))
+        {
+            <section class="page-section" id="speakers">
+                <div class="row text-center">
+                    <div class="col-12">
+                        <h2 class="section-heading text-uppercase">Speakers</h2>
+                    </div>
+                            <div class="col-12 alert alert-light" role="alert">
+                            <p>
+                            @if(Model.Event.SpeakerListURL != null)
+                            {
+                                 <script type="text/javascript" src="@Model.Event.SpeakerListURL"></script>
                             }
                             else
                             {
-                                @Html.Raw(milestone.DateText)    
+                               <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@Model.Event.CallForSpeakersURL">
+                                   Submit your session
+                               </a>
                             }
-                            : @milestone.Name
-                            <br></p>
-                    </div>
-                }
+                            </p>
+                            </div>                    
                 </div>
-            }
-            else
-            {
-                <div CLASS="mt-5">
-                    Milestones not avaiable.
-                </div>
-            }
-       </div>
-</section>
-
-
-<!-- Precon -->
-<section class="page-section" id="precon">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase text-center">Pre-conference workshop</h2>
-            @if ((Model.Event.Precons?.Any() == true) || (Model.Event.PreconDescription != null))
-            {
-                <div class="alert alert-light text-left" role="alert">
-                    @Html.Raw(Model.Event.PreconDescription)
-                </div>
-                @foreach (var precon in Model.Event.Precons)
-                {
-                    <div style="width: auto; height: auto; border: 2px solid #aaa; display: box; box-pack: center; box-align: center; padding: 15px;">
-                        <p style="text-align: center; font-size: 1.5rem;"> @precon.Name </p>
-                        <p style="text-align: center; font-size: 1.3rem;">
-                            with
-                            @foreach (var preconSpeaker in precon.Speakers)
+            </section>
+        }
+        
+        
+        <!--Volunteers-->
+        @if (Model.Event.VolunteerRequestURL != null)
+        {
+            <section class="page-section" id="volunteers">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <h2 class="section-heading text-uppercase">Volunteers</h2>
+                        </div>
+                        <div class="col-12 alert alert-light" role="alert">
+                            @if (Model.Event.VolunteerRequestURL.IsWellFormedOriginalString())
+                            {                        
+                                <p>
+                                    Volunteers are important to ensure the event runs smoothly. If you would like to help, 
+                                    <a href="@Model.Event.VolunteerRequestURL">submit your name as a volunteer.</a>
+                                </p>
+                            }
+                            else
                             {
-                                <a href="@preconSpeaker.Profile" target="_blank">@preconSpeaker.Name</a>
-                                <img src="@preconSpeaker.Image" height="170" alt="@preconSpeaker.Name" style="margin-left: 35px; margin-right: 35px;border-radius: 50%;">
+                                <p>
+                                    @Model.Event.VolunteerRequestURL
+                                </p>
                             }
-                        </p>
-                        <p>@Html.Raw(precon.Description)</p>
-                        <br>
-                        <p style="text-align:center;"> <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@precon.RegistrationUrl" target="_blank">Register</a> </p>
+                        </div>
                     </div>
-                }
-            }
-            else
-            {
-                <div CLASS="mt-5">
-                    Workshop not avaiable.
-                </div>
-            }
-        </div> 
-</section>
-
-<!-- Venue -->
-<section class="page-section" id="venue">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase text-center">Venue</h2>
-            @if (Model.Event.VenueMap != null)
-            {
-                <div class="alert alert-light" role="alert">
-                    <iframe src="@Model.Event.VenueMap" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-            }
-            else
-            {
-                <div CLASS="mt-5">
-                    Venue not avaiable.
-                </div>
-            }
-        </div>
-</section>
-
-
-<!-- Schedule -->
-<section class="page-section" id="schedule">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Schedule</h2>
-            @if (Model.Event.ScheduleURL != null)
-            {
-                <div class="alert alert-light" role="alert">
-                    <p>
-                        <iframe frameborder="0" STYLE="width: 100%;height:1900px" SRCDOC="<BODY><script type='text/javascript' src='@Model.Event.ScheduleURL'></script></BODY>">
-                        </iframe>
-                    </p>
-                </div>
-            }
-            else
-            {
-                <div CLASS="mt-5">
-                    Schedule not avaiable.
-                </div>
-            }
-        </div>
-</section>
-
-
-<!-- Sponsors -->
-<section class="page-section" id="sponsors">
-        <div class="text-center">
-            <div class="row justify-content-center">
-                @if (Model.Event.SponsorMenuItem == true)
-                {
-                    <h2 class="section-heading text-uppercase">Sponsorship Benefits</h2>
-                    @Html.Raw(Model.Event.SponsorBenefits)
-                }
-            </div>
-            <h2 class="section-heading text-uppercase">Sponsors</h2>
-            @if (Model.Event.Sponsors?.Any() == true)
-            {
-                @foreach (var sponsor in Model.Event.Sponsors.OrderBy(s => s.Level))
-                {
-                    var lev = "";
-                    @if(lev != null && lev.Equals(sponsor.Level,StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        <p style="text-align:center;font-size:2.5rem;color: dimgrey;margin-top: 35px;">
-                            <b>@sponsor.Level</b>
-                        </p>
-                    }
-
-                    lev = sponsor.Level;
-
-                    <div class="hero-box mr-4 mt-4 ml-4 align-self-center">
-                        <a href="@sponsor.LinkURL">
-
-                        <img src="@sponsor.ImageURL" height="@sponsor.Height" />
-
-                    </a>
+            </section>
+        }
+        else{}
+        
+        
+        <!-- Code of conduct -->
+        @if (Model.Event.CodeOfConduct != null)
+        {
+            <section class="page-section" id="codeofconduct">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <h2 class="section-heading text-uppercase">Code of Conduct</h2>
+                        </div>
+                        <div class="col-12 alert alert-light" role="alert">
+                            <p style="text-align:left;">@Html.Raw(Model.Event.CodeOfConduct)</p>
+                        </div>
                     </div>
-                }
-                
-            }
-
-        </div>
-        <div class="row justify-content-center">
-            <div CLASS="mt-5">
-                If you want to sponsor this event <a href="#contact">get in touch with the organizers</a>
-            </div>
-        </div>
-</section>
-
-
-<!-- Speakers -->
-<section class="page-section" id="speakers">
-    <div class="text-center">
-      <h2 class="section-heading text-uppercase">Speakers</h2>
-            @if ((Model.Event.SpeakerListURL != null) || (Model.Event.CallForSpeakersURL != null))
-            {
-                <div class="alert alert-light" role="alert">
-                <p>
-                @if(Model.Event.SpeakerListURL != null)
-                {
-                     <script type="text/javascript" src="@Model.Event.SpeakerListURL"></script>
-                }
-                else
-                {
-                   <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@Model.Event.CallForSpeakersURL">
-                       Submit your session
-                   </a>
-                }
-                </p>
-                </div>
-            }
-            else
-            {
-                <div CLASS="mt-5">
-                    Session not avaiable.
-                </div>
-            }
+            </section>
+        }
     </div>
-</section>
-
-
-<!--Volunteers-->
-@if (Model.Event.VolunteerRequestURL != null)
-{
-    <section class="page-section" id="volunteers">
-            <div class="text-center">
-                <h2 class="section-heading text-uppercase">Volunteers</h2>
-                <div class="alert alert-light" role="alert">
-                    @if (Model.Event.VolunteerRequestURL.IsWellFormedOriginalString())
-                    {                        
-                        <p>
-                            Volunteers are important to ensure the event runs smoothly. If you would like to help, 
-                            <a href="@Model.Event.VolunteerRequestURL">submit your name as a volunteer.</a>
-                        </p>
-                    }
-                    else
-                    {
-                        <p>
-                            @Model.Event.VolunteerRequestURL
-                        </p>
-                    }
-                </div>
-            </div>
-    </section>
-}
-else{}
-
-
-<!-- Code of conduct -->
-@if (Model.Event.CodeOfConduct != null)
-{
-    <section class="page-section" id="codeofconduct">
-            <div class="text-center">
-                <h2 class="section-heading text-uppercase">Code of Conduct</h2>
-                <div class="alert alert-light" role="alert">
-                    <p style="text-align:left;">@Html.Raw(Model.Event.CodeOfConduct)</p>
-                </div>
-            </div>
-    </section>
-}
-else{}
-
+</div>
 
 <!-- Contact -->
 <section class="page-section" id="contact">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Contact</h2>
+        <div class="row text-center">
+            <div class="col-12">
+                <h2 class="section-heading text-uppercase">Contact</h2>
+            </div>
             @foreach(var org in Model.Event.Organizers)
             {
-                <div class="alert alert-light" role="alert">
+                <div class="col-12 alert alert-light" role="alert">
                     <p>
                         <b>Organizer:</b> @org.Name
                         <a class="btn btn-dark btn-social mx-2" href="@org.Twitter"><i class="fab fa-twitter"></i></a>
