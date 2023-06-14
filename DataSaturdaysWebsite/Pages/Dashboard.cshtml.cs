@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DataSaturdaysWebsite.Pages
 {
-    public class PrivacyModel : PageModel
+    public class UserModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
+        private readonly ILogger<UserModel> _logger;
 
-        public PrivacyModel(ILogger<PrivacyModel> logger)
+        public UserModel(ILogger<UserModel> logger)
         {
             _logger = logger;
         }

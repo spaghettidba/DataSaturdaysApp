@@ -1,11 +1,24 @@
 using Dapper;
 using DataSaturdays.Core.Data;
 using DataSaturdays.Core.Services;
+using DataSaturdaysWebsite.Services;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+
+
+// Identity server components
+builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+
 
 // Add custom stuff
 builder.Services.AddScoped<IEventService, EventService>();
