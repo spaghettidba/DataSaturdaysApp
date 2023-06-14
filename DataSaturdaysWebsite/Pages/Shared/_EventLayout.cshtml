@@ -46,35 +46,56 @@
                 <li class="nav-item text-truncate">
                     <a class="nav-link js-scroll-trigger" href="/">DataSaturdays home</a>
                 </li>
-                <li class="nav-item text-truncate">
-                    <a class="nav-link js-scroll-trigger" href="#schedule">Schedule</a>
-                </li>
-                <li class="nav-item text-truncate">
-                    <a class="nav-link js-scroll-trigger" href="#precon">Precon</a>
-                </li>
-                <li class="nav-item text-truncate">
-                    <a class="nav-link js-scroll-trigger" href="#speakers">Speakers</a>
-                </li>
+                @if (Model.Event.ScheduleURL != null)
+                 {
+                    <li class="nav-item text-truncate">
+                        <a class="nav-link js-scroll-trigger" href="#schedule">Schedule</a>
+                    </li>
+                 }
+                @if (Model.Event.PreconDescription != null)
+                 {
+                    <li class="nav-item text-truncate">
+                        <a class="nav-link js-scroll-trigger" href="#precon">Precon</a>
+                    </li>
+                 }
+                @if ((Model.Event.SpeakerListURL != null) || (Model.Event.CallForSpeakersURL != null))
+                 {
+                    <li class="nav-item text-truncate">
+                        <a class="nav-link js-scroll-trigger" href="#speakers">Speakers</a>
+                    </li>              
+                 }
                 <li class="nav-item text-truncate">
                     <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
                 </li>
-                <li class="nav-item text-truncate">
-                    <a class="nav-link js-scroll-trigger" href="#venue">Venue</a>
-                </li>
-                <li class="nav-item text-truncate">
-                    <a class="nav-link js-scroll-trigger" href="#codeofconduct">CoC</a>
-                </li>
+                @if (Model.Event.VenueMap != null)
+                 {
+                    <li class="nav-item text-truncate">
+                        <a class="nav-link js-scroll-trigger" href="#venue">Venue</a>
+                    </li>
+                 }
+                @if (Model.Event.Sponsors != null)
+                {
+                    <li class="nav-item text-truncate">
+                        <a class="nav-link js-scroll-trigger" href="#sponsors">Sponsors</a>
+                    </li>
+                }
+                @if (Model.Event.CodeOfConduct != null)
+                 {
+                    <li class="nav-item text-truncate">
+                        <a class="nav-link js-scroll-trigger" href="#codeofconduct">CoC</a>
+                    </li>
+                 }
             </ul>
         </div>
     </nav>
 
     <div class="container-fluid">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
     </div>
 
-
+       
 
 
     <!-- Footer-->

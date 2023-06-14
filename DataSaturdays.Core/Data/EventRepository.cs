@@ -63,7 +63,7 @@ namespace DataSaturdays.Core.Data
                     E.callforspeakers_url       AS CallForSpeakersURL,
                     E.schedule_url              AS ScheduleURL,
                     E.speaker_list_url          AS SpeakerListURL, 
-                    E.volunteer_url             AS VolunteerRequestrURL, 
+                    E.volunteer_url             AS VolunteerRequestURL, 
                     E.hide_top_logo             AS HideTopLogo, 
                     E.hide_join_room            AS HideJoinRoom, 
                     E.open_registration_new_tab AS OpenRegistrationNewTab, 
@@ -78,7 +78,7 @@ namespace DataSaturdays.Core.Data
                 WHERE E.event_id = @eventId
                 ORDER BY E.event_date DESC
                 """;
-
+            
             Event evt = null;
             using (var connection = new SqlConnection(_connectionString))
             {
