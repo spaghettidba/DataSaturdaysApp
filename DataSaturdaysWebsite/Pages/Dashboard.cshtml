@@ -3,4 +3,69 @@
 @{
     ViewData["Title"] = "User Dashboard";
 }
-<h1>@ViewData["Title"]</h1>
+
+
+<div class="row">
+    <div class=" col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 ">
+
+
+            <h1 class="nav-item text-truncate text-center">
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="/EventEdit">
+                   CREATE EVENT(Momentaneo)
+                </a>
+            </h1>
+       
+        <div id="events-out" class="page-section">
+            <div id="events">
+                <h2 class="section-heading text-uppercase pt-4">My Events</h2>
+            </div>
+
+            <div class="container">
+                <table table="" cellspacing="0" class="table-responsive table-striped table-hover mt-3" id="eventlist" width="100%">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Event Name</th>
+                            <th scope="col">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Events List show future events-->
+                       @* @foreach (var item in Model.Events.Where(s => s.Date >= DateTime.Now.Date).OrderBy(s => s.Date))
+                        {
+                            <tr>
+                                <td>
+                                    <div class="hero-box mt-3 align-self-center">
+                                        <a href="/Event/@item.Id">
+                                            <img src="assets/design/logo/10.png" height="65">
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hero-box mt-3 align-self-center flex-nowrap text-uppercase">
+                                        <a href="/Event/@item.Id">
+                                            <div class="nav-link">@item.Name</div>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="hero-box mt-3 align-self-center flex-nowrap">
+                                        <div class="nav-link">@item.Date.ToString("dd MMMM yyyy")</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }*@
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+</div>

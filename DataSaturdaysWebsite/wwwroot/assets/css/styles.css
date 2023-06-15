@@ -625,3 +625,7 @@ section#contact form#contactForm :-ms-input-placeholder {
   height: 3.125rem; /* navbar height */
   margin: -3.125rem 0 0;
 }
+
+.checkbox-size{
+    transform: scale(1.7);
+}
