@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <base href="~/" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Data Saturdays website">
     <meta name="author" content="">
@@ -123,5 +124,7 @@
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

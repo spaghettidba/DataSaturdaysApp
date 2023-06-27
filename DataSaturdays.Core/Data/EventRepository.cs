@@ -3,6 +3,7 @@ using DataSaturdays.Core.Entities;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -111,9 +112,14 @@ namespace DataSaturdays.Core.Data
                     WHERE P.event_id = @eventId
                     """;
 
+                if (evt == null)
+                {
+                    return null;
+                }
+
 
                 var precons = await connection.QueryAsync<Precon, Speaker, Precon>(query, (p, s) => { p.Speakers.Add(s); return p; }, new { eventId }, splitOn: "speaker_order");
-                evt.Precons.AddRange(precons);
+                evt.Precons?.AddRange(precons);
 
                 query =
                     """
@@ -125,7 +131,7 @@ namespace DataSaturdays.Core.Data
                     WHERE R.event_id = @eventId
                     """;
                 var rooms = await connection.QueryAsync<Room>(query, new { eventId });
-                evt.Rooms.AddRange(rooms);
+                evt.Rooms?.AddRange(rooms);
 
                 query =
                     """
@@ -140,7 +146,7 @@ namespace DataSaturdays.Core.Data
                     """;
 
                 var milestones = await connection.QueryAsync<Milestone>(query, new { eventId });
-                evt.Milestones.AddRange(milestones);
+                evt.Milestones?.AddRange(milestones);
 
                 query =
                     """"
@@ -154,7 +160,7 @@ namespace DataSaturdays.Core.Data
                     """";
 
                 var organizers = await connection.QueryAsync<Organizer>(query, new { eventId });
-                evt.Organizers.AddRange(organizers);
+                evt.Organizers?.AddRange(organizers);
 
                 query =
                     """"
@@ -173,7 +179,7 @@ namespace DataSaturdays.Core.Data
                     """";
 
                 var sponsors = await connection.QueryAsync<Sponsor>(query, new { eventId });
-                evt.Sponsors.AddRange(sponsors);
+                evt.Sponsors?.AddRange(sponsors);
             }
             return evt;
         }
@@ -206,6 +212,56 @@ namespace DataSaturdays.Core.Data
 
             using var connection = new SqlConnection(_connectionString);
             return await connection.QueryAsync<Event>(query);
+        }
+
+        public async Task<IEnumerable<Event>> GetEventsByUser(Guid userId)
+        {
+            const string query = @"
+                SELECT 
+                    E.event_id AS Id,
+                    E.name,
+                    E.event_date AS [Date],
+                    E.virtual,
+                    E.description,
+                    E.registration_url AS RegistrationURL,
+                    E.callforspeakers_url AS CallForSpeakersURL,
+                    E.schedule_url AS ScheduleURL,
+                    E.speaker_list_url AS SpeakerListURL, 
+                    E.volunteer_url AS VolunteerRequestrURL, 
+                    E.hide_top_logo AS HideTopLogo, 
+                    E.hide_join_room AS HideJoinRoom, 
+                    E.open_registration_new_tab AS OpenRegistrationNewTab, 
+                    E.schedule_app AS ScheduleApp, 
+                    E.venue_map AS VenueMap, 
+                    E.code_of_conduct AS CodeOfConduct, 
+                    E.sponsor_benefits AS SponsorBenefits, 
+                    E.sponsor_menuitem AS SponsorMenuItem
+                FROM Events AS E
+                WHERE EXISTS (
+	                SELECT *
+	                FROM Organizers AS O
+	                INNER JOIN AspNetUsers AS U
+		                ON O.email = U.Email
+	                WHERE O.event_id = E.event_id
+		                AND U.Id = @userId
+                )
+                ORDER BY E.event_date DESC
+            ";
+
+            using var connection = new SqlConnection(_connectionString);
+            return await connection.QueryAsync<Event>(query, new { userId });
+        }
+
+        public async Task UpdateEvent(Event Input)
+        {
+            string sql = """"
+                UPDATE Events 
+                SET name = @Name
+                WHERE event_id = @Id
+                """";
+
+            using var connection = new SqlConnection(_connectionString);
+            await connection.ExecuteAsync(sql, Input);
         }
     }
 }

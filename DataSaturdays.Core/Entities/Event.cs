@@ -10,7 +10,7 @@ namespace DataSaturdays.Core.Entities
 {
     public class Event
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.Empty;
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }

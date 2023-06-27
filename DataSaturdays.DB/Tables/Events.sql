@@ -19,5 +19,6 @@
     [code_of_conduct] NVARCHAR(MAX) NULL, 
     [sponsor_benefits] NVARCHAR(MAX) NULL, 
     [sponsor_menuitem] BIT NULL, 
-    [precon_description] nvarchar(max) NULL
+    [precon_description] nvarchar(max) NULL, 
+    [published] BIT NULL
 )

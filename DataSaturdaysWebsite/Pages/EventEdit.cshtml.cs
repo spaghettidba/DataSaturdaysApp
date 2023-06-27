@@ -7,13 +7,16 @@ namespace DataSaturdaysWebsite.Pages
     {
         private readonly ILogger<UserModel> _logger;
 
+        public Guid Id { get; set; }
+
         public EventEditModel(ILogger<UserModel> logger)
         {
             _logger = logger;
         }
 
-        public void OnGet()
+        public void OnGet(Guid EventId)
         {
+            Id = EventId;
         }
     }
 }

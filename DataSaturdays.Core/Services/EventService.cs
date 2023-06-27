@@ -31,6 +31,14 @@ namespace DataSaturdays.Core.Services
             return await _eventRepository.GetEvents();
         }
 
+        public async Task<IEnumerable<Event>> GetEventsByUserAsync(Guid userId)
+        {
+            return await _eventRepository.GetEventsByUser(userId);
+        }
 
+        public async Task UpdateEvent(Event Input)
+        {
+            await _eventRepository.UpdateEvent(Input);
+        }
     }
 }

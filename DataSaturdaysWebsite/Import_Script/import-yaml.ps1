@@ -35,7 +35,7 @@ $colMap = @{
     precondescription = "precon_description";
 }
 
-Get-ChildItem "C:\GitHub\DataSaturdays\_data\events\" | % {
+Get-ChildItem "C:\GitHub\DataSaturdays\_data\events" | % {
     $currentFile = $_
     $theGuid = New-Guid
     $yaml = Get-Content $_.FullName -Raw -Encoding UTF8
@@ -95,20 +95,26 @@ Get-ChildItem "C:\GitHub\DataSaturdays\_data\events\" | % {
     if($hash.ContainsKey("Organizers")){
         $hash.Organizers | % {
             $org = $_
-            if(-not $org.ContainsKey("event_id")) {
-                $org.Add("event_id",$theGuid)
-            }
-            if(-not $org.ContainsKey("organizer_id")) {
-                $org.Add("organizer_id",(new-guid))
-            }
-            $dt = ([pscustomobject]$org) | ConvertTo-DbaDataTable
 
-            $filteredColMap = $orgColMap
-            if(-not $org.ContainsKey("twitter")) {
-                $filteredColMap.Remove("twitter")
+            if($org.email){ #exclude organizers with no email
+
+                $org.email = $org.email.Replace("mailto:","")
+
+                if(-not $org.ContainsKey("event_id")) {
+                    $org.Add("event_id",$theGuid)
+                }
+                if(-not $org.ContainsKey("organizer_id")) {
+                    $org.Add("organizer_id",(new-guid))
+                }
+                $dt = ([pscustomobject]$org) | ConvertTo-DbaDataTable
+
+                $filteredColMap = $orgColMap
+                if(-not $org.ContainsKey("twitter")) {
+                    $filteredColMap.Remove("twitter")
+                }
+                #$dt
+                $dt | Write-DbaDataTable -SqlInstance "localhost" -Database "datasaturdays" -Table "Organizers" -ColumnMap $filteredColMap
             }
-            #$dt
-            $dt | Write-DbaDataTable -SqlInstance "localhost" -Database "datasaturdays" -Table "Organizers" -ColumnMap $filteredColMap
         }
     }
 

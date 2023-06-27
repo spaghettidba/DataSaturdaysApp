@@ -12,6 +12,7 @@ namespace DataSaturdays.Core.Data
         Task<IEnumerable<Event>> GetEvents();
         Task<Event> GetEventByIdAsync(Guid eventId);
         Task CreateEvent(Event Input);
-
+        Task UpdateEvent(Event Input);
+        Task<IEnumerable<Event>> GetEventsByUser(Guid userId);
     }
 }

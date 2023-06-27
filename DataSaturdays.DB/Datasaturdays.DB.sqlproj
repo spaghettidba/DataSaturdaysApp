@@ -66,10 +66,6 @@
     <Build Include="Tables\AspNetUserRoles.sql" />
     <Build Include="Tables\AspNetUsers.sql" />
     <Build Include="Tables\AspNetUserTokens.sql" />
-    <Build Include="Tables\Users.sql" />
-    <Build Include="Tables\Organizations.sql" />
-    <Build Include="Tables\UserOrganizations.sql" />
-    <Build Include="Tables\OrganizationTokens.sql" />
     <Build Include="Tables\Events.sql" />
     <Build Include="Tables\Organizers.sql" />
     <Build Include="Tables\Rooms.sql" />
