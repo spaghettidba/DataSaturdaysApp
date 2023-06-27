@@ -2,16 +2,22 @@
 @using DataSaturdays.Core.Entities;
 @using DataSaturdays.Core.Services;
 
+@*@{
+    ViewData["Title"] = "Event Edit";
+    Layout = "_EventEditLayout";
+}*@
 
 @inject IEventService EventService
 
 
-<EditForm EditContext="_editContext" OnValidSubmit="Save" class="row">
+<EditForm EditContext="_editContext" OnValidSubmit="Save" class="row mr-5 ml-5">
         
-    <div class="col-12 pt-3">
+    <div class="col-6 pt-3 offset-3 highlight">
 
         <!-- START OBLIGATORY -->
-        <h1>STANDARD INFOS</h1>
+        <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
+            <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Standard infos</h2>
+        </div>
         <div class="row mt-lg-5">
                 
             <div class="col-6">
@@ -32,7 +38,7 @@
             <div class="col-12 mt-3">
                 <div class="form-group">
                     <label for="txtDescription">Description</label>
-                    <InputTextArea type="text" class="form-control" title="Description" rows="5" @bind-Value="Item.Description" placeholder="Enter event description"></InputTextArea>
+                    <InputTextArea type="text" class="form-control" title="Description" rows="10" @bind-Value="Item.Description" placeholder="Enter event description"></InputTextArea>
                 </div>
             </div>
         </div>
@@ -40,7 +46,7 @@
         <br/>
 
         <div class="row">
-            <div class="col-4">
+            <div class="col-12">
                 <div class="form-group">
                     <label for="urlReg">Registration URL</label>
                     <input type="url" class="form-control" title="RegURL" value="@Item.RegistrationURL" placeholder="Enter the registration URL" />
@@ -48,14 +54,14 @@
             </div>
 
 
-            <div class="col-4">
+            <div class="col-12">
                 <div class="form-group">
                     <label for="urlCFS">Call For Speaker URL</label>
                     <input type="url" class="form-control" title="CFSURL" value="@Item.CallForSpeakersURL" placeholder="Enter the call for speaker URL" />
                 </div>
             </div>
 
-            <div class="col-4">
+            <div class="col-12">
                 <div class="form-group">
                     <label for="urlSchedule">Schedule URL</label>
                     <input type="url" class="form-control" title="ScheduleURL" value="@Item.ScheduleURL" placeholder="Enter the schedule URL" />
@@ -66,7 +72,7 @@
         <br />
 
         <div class="row">
-            <div class="col-4">
+            <div class="col-12">
                 <div class="form-group">
                     <label for="urlSpeakerList">Speaker List URL</label>
                     <input type="url" class="form-control" title="SpeakerListURL" value="@Item.SpeakerListURL" placeholder="Enter the speaker list URL" />
@@ -74,14 +80,14 @@
             </div>
 
 
-            <div class="col-4">
+            <div class="col-12">
                 <div class="form-group">
                     <label for="urlVolunteer">Volunteers URL</label>
                     <input type="url" class="form-control" title="VolURL" value="@Item.VolunteerRequestURL" placeholder="Enter the volunteer request URL" />
                 </div>
             </div>
 
-            <div class="col-4">
+            <div class="col-12">
                 <div class="form-group">
                     <label for="urlMap">Venue Map URL</label>
                     <input type="url" class="form-control" title="VMapURL" value="@Item.VenueMap" placeholder="Enter the venue URL" />
@@ -91,36 +97,40 @@
 
     </div>
 
+    <br />
+
     <!-- START ORGANIZERS -->
-    <div class="col-12 pt-3">
-        <h1>ORGANIZERS</h1>
-    </div>
-    @foreach(var Org in Item.Organizers)
-    {
-        <div class="row mt-lg-5">
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="txtOName">Organizer Name</label>
-                    <input type="text" class="form-control" title="OName" value="@Org.Name" />
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="urlOEmail">Organizer's email</label>
-                    <input type="email" class="form-control" title="OrgEmail" value="@Org.Email" />
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="form-group">
-                    <input type="url" class="form-control" title="OrgTwitt" value="@Org.Twitter" />
-                    <label for="urlOTwitt">Organizer's Twitter URL</label>
-                </div>
-            </div>
+    <div class="col-6 pt-5 offset-3 highlight">
+        <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
+            <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Organizers</h2>
         </div>
-    }
+        @foreach(var Org in Item.Organizers)
+        {
+            <div class="row mt-lg-5">
+
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="txtOName">Organizer Name</label>
+                        <input type="text" class="form-control" title="OName" value="@Org.Name" />
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="urlOEmail">Organizer's email</label>
+                        <input type="email" class="form-control" title="OrgEmail" value="@Org.Email" />
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="urlOTwitt">Organizer's Twitter URL</label>
+                        <input type="url" class="form-control" title="OrgTwitt" value="@Org.Twitter" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
     <!-- END ORGANIZERS -->
 
     <!-- END OBLIGATORY -->
@@ -128,215 +138,258 @@
     <br>
 
     <!-- START MILESTONES -->
-    <div class="col-12 pt-3">            
-        <h1>MILESTONES (Optional)</h1>
-    </div>
-    @foreach(var Mil in Item.Milestones)
-    {
-        <div class="row mt-lg-5">
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="txtMName">Milestone Name</label>
-                    <input type="text" class="form-control" title="MName" value="@Mil.Name" />
-                </div>
-            </div>
-
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="txtMDate">Milestone Date</label>
-                    <input type="text" class="form-control" title="MDate" value="@Mil.Date" />
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="txtMOrder">Milestone Order</label>
-                    <input type="text" class="form-control" title="MOrder" value="@Mil.Order" />
-                </div>
-            </div>
-
+    <div class="col-6 pt-3 offset-3 highlight">
+        <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
+            <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Milestones</h2>
         </div>
-    }
+        @if (Item.Milestones?.Any() == true)
+        {
+            @foreach (var Mil in Item.Milestones)
+            {
+                <div class="row mt-lg-5">
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="txtMName">Milestone Name</label>
+                            <input type="text" class="form-control" title="MName" value="@Mil.Name" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="txtMDate">Milestone Date</label>
+                            <input type="text" class="form-control" title="MDate" value="@Mil.Date" />
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="txtMOrder">Milestone Order</label>
+                            <input type="text" class="form-control" title="MOrder" value="@Mil.Order" />
+                        </div>
+                    </div>
+
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-10 offset-1 text-center">
+                <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center">Add Item</button>             
+            </div>
+        }
+    </div>
     <!-- END MILESTONES -->
 
     <br />
 
     <!-- START PRECONFERENCE -->
-    <div class="col-12 pt-3">
-        <h1>PRECONFERENCE (Optional)</h1>
-    </div>
-
-    <div class="row mt-lg-5">
-
-        <div class="col-6">
-            <div class="form-group">
-                <label for="txtPName">Preconference Name</label>
-                <input type="text" class="form-control" title="PreconName" value=""/>
-            </div>
+    <div class="col-6 pt-3 offset-3 highlight">
+        <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
+            <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Peconference</h2>
         </div>
 
+        <div class="row mt-lg-5">
 
-        <div class="col-6">
-            <div class="form-group">
-                <label for="txtPDesc">Preconference Description</label>
-                <input type="text" class="form-control" title="PreconDesc" rows="5" value="" />
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="txtPName">Preconference Name</label>
+                    <input type="text" class="form-control" title="PreconName" value=""/>
+                </div>
             </div>
+
+
+            <div class="col-12 mt-3">
+                <div class="form-group">
+                    <label for="txtPrecDescription">Precon Description</label>
+                    <InputTextArea type="text" class="form-control" title="Precon Description" rows="8" @bind-Value="Item.PreconDescription" placeholder="Enter precon description"></InputTextArea>
+                </div>
+            </div>
+
+            @if (Item.Precons?.Any() == true)
+            {
+                @foreach (var Speaker in Item.Precons)
+                {
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="txtSName">Speaker Name</label>
+                            <input type="text" class="form-control" title="SName" value="@Speaker.Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="urlSpeaker">Speaker URL</label>
+                            <input type="url" class="form-control" title="SURL" value="" />
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="urlSpeakerimg">Speaker Image URL</label>
+                            <input type="url" class="form-control" title="SImgURL" value="" />
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-10 offset-1 text-center">
+                    <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center">Add Item</button>
+                </div>
+            }
         </div>
-
-        @foreach(var Speaker in Item.Precons)
-        {         
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="txtSName">Speaker Name</label>
-                    <input type="text" class="form-control" title="SName" value="@Speaker.Name" />
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="urlSpeaker">Speaker URL</label>
-                    <input type="url" class="form-control" title="SURL" value="" />
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="urlSpeakerimg">Speaker Image URL</label>
-                    <input type="url" class="form-control" title="SImgURL" value="" />
-                </div>
-            </div>
-        }
-
     </div>
     <!-- END PRECONFERENCE -->
 
     <br />
 
     <!-- START SPONSORS -->
-    <div class="col-12 pt-3">
-        <h1>ACTUAL SPONSORS (Optional)</h1>
-    </div>
-
-    @foreach(var Spon in Item.Sponsors)
-    {
-        
-        <div class="row mt-lg-5">
-
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="txtSName">Sponsor Name</label>
-                    <input type="text" class="form-control" title="SName" value="@Spon.Name" />
-                </div>
-            </div>
-
-        
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="urlSImg">Sponsor Image</label>
-                    <input type="url" class="form-control" title="SImg" value="@Spon.ImageURL" />
-                </div>
-            </div>
-
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="urlSLink">Sponsor Link</label>
-                    <input type="url" class="form-control" title="SLink" value="@Spon.LinkURL" />
-                </div>
-            </div>
-
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="txtSLevel">Sponsor Level</label>
-                    <input type="text" class="form-control" title="SLevel" value="@Spon.Level" />
-                </div>
-            </div>
-
+    <div class="col-6 pt-3 offset-3 highlight">
+        <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
+            <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Sponsors</h2>
         </div>
-    }
+
+        @if (Item.Sponsors?.Any() == true)
+        {
+            @foreach (var Spon in Item.Sponsors)
+            {
+
+                <div class="row mt-lg-5">
+
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="txtSName">Sponsor Name</label>
+                            <input type="text" class="form-control" title="SName" value="@Spon.Name" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="urlSImg">Sponsor Image</label>
+                            <input type="url" class="form-control" title="SImg" value="@Spon.ImageURL" />
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="urlSLink">Sponsor Link</label>
+                            <input type="url" class="form-control" title="SLink" value="@Spon.LinkURL" />
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label for="txtSLevel">Sponsor Level</label>
+                            <input type="text" class="form-control" title="SLevel" value="@Spon.Level" />
+                        </div>
+                    </div>
+
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-10 offset-1 text-center">
+                <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center">Add Item</button>
+            </div>
+        }
+    </div>
     <!-- END SPONSORS -->
 
     <br />
 
     <!-- START VIRTUAL --!>
-    <div class="row mt-lg-5">
-        <div class="col-12">
-            <h1>
-                Room(optional)
-            </h1>
-        </div>
-
-        @foreach(var Room in Item.Rooms)
-        {
-        <div class="col-6">
-            <div class="form-group">
-                <label for="txtRName">Room Name</label>
-                <input type="text" class="form-control" title="RName" value="@Room.Name"/>
+    <div class="row mt-lg-5 mt-5 ">
+        <div class="col-6 pt-3 offset-3 highlight">
+            <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
+                <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Rooms</h2>
             </div>
-        </div>
 
-        <div class="col-6">
-            <div class="form-group">
-                <label for="urlRoom">Room URL</label>
-                    <input type="url" class="form-control" title="RoomURL" value="@Room.JoinURL" />
-            </div>
-        </div>
-        }
+            @if (Item.Rooms?.Any() == true)
+            {
+                @foreach (var Room in Item.Rooms)
+                {
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="txtRName">Room Name</label>
+                            <input type="text" class="form-control" title="RName" value="@Room.Name"/>
+                        </div>
+                    </div>
 
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="urlRoom">Room URL</label>
+                            <input type="url" class="form-control" title="RoomURL" value="@Room.JoinURL" />
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-10 offset-1 text-center">
+                    <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center">Add Item</button>
+                </div>
+            }
+        </div>
     </div>
     <!-- END VIRTUAL -->
 
     <br />
 
     <!-- START OTHER -->
-    <div class="col-12 pt-3">
-        <h1>OTHER (Optional)</h1>
-    </div>
-
-    <div class="row mt-lg-5">
-
-        <div class="col-3">
-            <div class="col align-content-center form-check">
-                <input type="checkbox" class="form-check-input checkbox-size" title="HTL" id="checkboxHTL" />
-                <label for="checkboxHTL" class="form-check-label">Hide top Logo</label>
-            </div>
+    <div class="col-6 pt-3 offset-3 highlight">
+        <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
+            <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Other</h2>
         </div>
 
+        <div class="row mt-lg-5">
 
-        <div class="col-3">
-            <div class="col align-content-center form-check">
-                <input type="checkbox" class="form-check-input checkbox-size" title="COC" id="checkboxCOC" />
-                <label for="checkboxCOC" class="form-check-label">Code of Conduct</label>
+            <div class="col-3">
+                <div class="col align-content-center form-check">
+                    <input type="checkbox" class="form-check-input checkbox-size" title="HTL" id="checkboxHTL" />
+                    <label for="checkboxHTL" class="form-check-label">Hide top Logo</label>
+                </div>
             </div>
-        </div>
 
-        <div class="col-3">
-            <div class="col align-content-center form-check">
-                <input type="checkbox" class="form-check-input checkbox-size" title="HJR" id="checkboxHJR" />
-                <label for="checkboxHJR" class="form-check-label">Hide Join Rooms</label>
+
+            <div class="col-3">
+                <div class="col align-content-center form-check">
+                    <input type="checkbox" class="form-check-input checkbox-size" title="COC" id="checkboxCOC" />
+                    <label for="checkboxCOC" class="form-check-label">Code of Conduct</label>
+                </div>
             </div>
-        </div>
 
-        <div class="col-3">
-            <div class="col align-content-center form-check">
-                <input type="checkbox" class="form-check-input checkbox-size" title="Virtual" id="checkboxVir" />
-                <label for="checkboxVir" class="form-check-label">Virtual</label>
+            <div class="col-3">
+                <div class="col align-content-center form-check">
+                    <input type="checkbox" class="form-check-input checkbox-size" title="HJR" id="checkboxHJR" />
+                    <label for="checkboxHJR" class="form-check-label">Hide Join Rooms</label>
+                </div>
             </div>
-        </div>
 
-        <div class="col-12 mt-3">
-            <div class="form-group">
-                <label for="txtDescription">Schedule Description</label>
-                <InputTextArea type="text" class="form-control" title="Schedule description" rows="5" @bind-Value="Item.ScheduleDescription" placeholder="Enter schedule description"></InputTextArea>
+            <div class="col-3">
+                <div class="col align-content-center form-check">
+                    <input type="checkbox" class="form-check-input checkbox-size" title="Virtual" id="checkboxVir" />
+                    <label for="checkboxVir" class="form-check-label">Virtual</label>
+                </div>
             </div>
-        </div>
 
+            <div class="col-12 mt-3">
+                <div class="form-group">
+                    <label for="txtDescription">Schedule Description</label>
+                    <InputTextArea type="text" class="form-control" title="Schedule description" rows="5" @bind-Value="Item.ScheduleDescription" placeholder="Enter schedule description"></InputTextArea>
+                </div>
+            </div>
+
+        </div>
     </div>
     <!-- END OTHER -->
-
-    <button type="submit" class="btn btn-primary mt-3 mr-3">Save</button>
-    <a class="btn btn-outline-primary mt-3" href="/Dashboard">Cancel</a>
+    <div class="col-10 offset-1 text-center">      
+       <button type="submit" class="btn btn-primary mt-3 mr-3 align-content-center">Save</button>
+       <a class="btn btn-outline-primary mt-3 align-content-center" href="/Dashboard">Cancel</a>        
+    </div>
         
 
 </EditForm>

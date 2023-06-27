@@ -47,6 +47,23 @@ p {
     padding: 0;
 }
 
+.Subhead {
+    border-bottom: var(--borderWidth-thin, max(1px, 0.0625rem)) solid hsla(210,18%,87%,1);
+    display: flex;
+    flex-flow: row wrap;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.highlight {
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f7f7f9;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
 .force-content-max-width > *:not(.skip-force-width) {
   max-width: 100% !important;
 }
