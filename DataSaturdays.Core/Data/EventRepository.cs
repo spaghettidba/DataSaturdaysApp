@@ -19,6 +19,31 @@ namespace DataSaturdays.Core.Data
 
         private readonly string _connectionString;
 
+        private const string _base_query = """
+            SELECT 
+                E.event_id                  AS Id,
+                E.name                      AS Name,
+                E.event_date                AS [Date],
+                E.virtual                   AS Virtual,
+                E.description               AS Description,
+                E.registration_url          AS RegistrationURL,
+                E.callforspeakers_url       AS CallForSpeakersURL,
+                E.schedule_url              AS ScheduleURL,
+                E.speaker_list_url          AS SpeakerListURL, 
+                E.volunteer_url             AS VolunteerRequestrURL, 
+                E.hide_top_logo             AS HideTopLogo, 
+                E.hide_join_room            AS HideJoinRoom, 
+                E.open_registration_new_tab AS OpenRegistrationNewTab, 
+                E.schedule_app              AS ScheduleApp, 
+                E.venue_map                 AS VenueMap, 
+                E.code_of_conduct           AS CodeOfConduct, 
+                E.sponsor_benefits          AS SponsorBenefits, 
+                E.sponsor_menuitem          AS SponsorMenuItem,
+                E.published                 AS Published
+            FROM Events AS E
+            """ + "\r\n";
+
+
         public EventRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -52,30 +77,8 @@ namespace DataSaturdays.Core.Data
 
         public async Task<Event> GetEventByIdAsync(Guid eventId)
         {
-            string query =
+            string query = _base_query +
                 """
-                SELECT 
-                    E.event_id                  AS Id,
-                    E.name,
-                    E.event_date                AS [Date],
-                    E.virtual,
-                    E.description,
-                    E.registration_url          AS RegistrationURL,
-                    E.callforspeakers_url       AS CallForSpeakersURL,
-                    E.schedule_url              AS ScheduleURL,
-                    E.speaker_list_url          AS SpeakerListURL, 
-                    E.volunteer_url             AS VolunteerRequestURL, 
-                    E.hide_top_logo             AS HideTopLogo, 
-                    E.hide_join_room            AS HideJoinRoom, 
-                    E.open_registration_new_tab AS OpenRegistrationNewTab, 
-                    E.schedule_app              AS ScheduleApp, 
-                    E.schedule_description      AS ScheduleDescription, 
-                    E.venue_map                 AS VenueMap, 
-                    E.code_of_conduct           AS CodeOfConduct, 
-                    E.sponsor_benefits          AS SponsorBenefits, 
-                    E.sponsor_menuitem          AS SponsorMenuItem, 
-                    E.precon_description        AS PreconDescription
-                FROM Events AS E
                 WHERE E.event_id = @eventId
                 ORDER BY E.event_date DESC
                 """;
@@ -186,29 +189,10 @@ namespace DataSaturdays.Core.Data
 
         public async Task<IEnumerable<Event>> GetEvents()
         {
-            const string query = @"
-                SELECT 
-                    E.event_id AS Id,
-                    E.name,
-                    E.event_date AS [Date],
-                    E.virtual,
-                    E.description,
-                    E.registration_url AS RegistrationURL,
-                    E.callforspeakers_url AS CallForSpeakersURL,
-                    E.schedule_url AS ScheduleURL,
-                    E.speaker_list_url AS SpeakerListURL, 
-                    E.volunteer_url AS VolunteerRequestrURL, 
-                    E.hide_top_logo AS HideTopLogo, 
-                    E.hide_join_room AS HideJoinRoom, 
-                    E.open_registration_new_tab AS OpenRegistrationNewTab, 
-                    E.schedule_app AS ScheduleApp, 
-                    E.venue_map AS VenueMap, 
-                    E.code_of_conduct AS CodeOfConduct, 
-                    E.sponsor_benefits AS SponsorBenefits, 
-                    E.sponsor_menuitem AS SponsorMenuItem
-                FROM Events AS E
+            string query = _base_query +
+            """
                 ORDER BY E.event_date DESC
-            ";
+            """;
 
             using var connection = new SqlConnection(_connectionString);
             return await connection.QueryAsync<Event>(query);
@@ -216,37 +200,18 @@ namespace DataSaturdays.Core.Data
 
         public async Task<IEnumerable<Event>> GetEventsByUser(Guid userId)
         {
-            const string query = @"
-                SELECT 
-                    E.event_id AS Id,
-                    E.name,
-                    E.event_date AS [Date],
-                    E.virtual,
-                    E.description,
-                    E.registration_url AS RegistrationURL,
-                    E.callforspeakers_url AS CallForSpeakersURL,
-                    E.schedule_url AS ScheduleURL,
-                    E.speaker_list_url AS SpeakerListURL, 
-                    E.volunteer_url AS VolunteerRequestrURL, 
-                    E.hide_top_logo AS HideTopLogo, 
-                    E.hide_join_room AS HideJoinRoom, 
-                    E.open_registration_new_tab AS OpenRegistrationNewTab, 
-                    E.schedule_app AS ScheduleApp, 
-                    E.venue_map AS VenueMap, 
-                    E.code_of_conduct AS CodeOfConduct, 
-                    E.sponsor_benefits AS SponsorBenefits, 
-                    E.sponsor_menuitem AS SponsorMenuItem
-                FROM Events AS E
+            const string query = _base_query +
+                """
                 WHERE EXISTS (
-	                SELECT *
-	                FROM Organizers AS O
-	                INNER JOIN AspNetUsers AS U
-		                ON O.email = U.Email
-	                WHERE O.event_id = E.event_id
-		                AND U.Id = @userId
+                    SELECT *
+                    FROM Organizers AS O
+                    INNER JOIN AspNetUsers AS U
+                        ON O.email = U.Email
+                    WHERE O.event_id = E.event_id
+                        AND U.Id = @userId
                 )
                 ORDER BY E.event_date DESC
-            ";
+            """;
 
             using var connection = new SqlConnection(_connectionString);
             return await connection.QueryAsync<Event>(query, new { userId });
@@ -256,7 +221,26 @@ namespace DataSaturdays.Core.Data
         {
             string sql = """"
                 UPDATE Events 
-                SET name = @Name
+                SET name                        = @Name,
+                    event_date                  = @Date, 
+                    virtual                     = @Virtual, 
+                    description                 = @Description, 
+                    registration_url            = @RegistrationURL,
+                    callforspeakers_url         = @CallForSpeakersURL, 
+                    schedule_url                = @ScheduleURL, 
+                    speaker_list_url            = @SpeakerListURL, 
+                    volunteer_url               = @VolunteerRequestURL, 
+                    hide_top_logo               = @HideTopLogo, 
+                    hide_join_room              = @HideJoinRoom, 
+                    open_registration_new_tab   = @OpenRegistrationNewTab, 
+                    schedule_app               = @ScheduleApp, 
+                    schedule_description        = @ScheduleDescription, 
+                    venue_map                   = @VenueMap, 
+                    code_of_conduct             = @CodeOfConduct
+                    sponsor_benefits            = @SponsorBenefits, 
+                    sponsor_menuitem            = @SponsorMenuItem, 
+                    precon_description          = @PreconDescription, 
+                    published                   = @Published
                 WHERE event_id = @Id
                 """";
 

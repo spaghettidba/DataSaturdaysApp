@@ -2,11 +2,6 @@
 @using DataSaturdays.Core.Entities;
 @using DataSaturdays.Core.Services;
 
-@*@{
-    ViewData["Title"] = "Event Edit";
-    Layout = "_EventEditLayout";
-}*@
-
 @inject IEventService EventService
 
 
@@ -23,22 +18,29 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="txtName">Name</label>
-                    <InputText class="form-control" title="Name" @bind-Value="Item.Name" placeholder="Enter event name"/>
+                    <InputText class="form-control" title="Name" @bind-Value="Item.Name" placeholder="Enter event name" required />
                 </div>
             </div>
         
 
-            <div class="col-6">
+            <div class="col-4">
                 <div class="form-group">
                     <label for="txtDate">Date</label>
-                    <input type="text" class="form-control" title="Date" value="@Item.Date" placeholder="Enter event date" />
+                    <InputDate class="form-control" title="Date" @bind-Value="Item.Date" placeholder="Enter event date" required />
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="col align-content-center form-check">
+                    <label for="checkboxVir" class="form-check-label"> Virtual</label>
+                    <InputCheckbox type="checkbox" class="form-check-input checkbox-size mt-5 pt-md-5" @bind-Value="Item.Virtual" title="Virtual" id="checkboxVir" />
                 </div>
             </div>
 
             <div class="col-12 mt-3">
                 <div class="form-group">
                     <label for="txtDescription">Description</label>
-                    <InputTextArea type="text" class="form-control" title="Description" rows="10" @bind-Value="Item.Description" placeholder="Enter event description"></InputTextArea>
+                    <InputTextArea type="text" class="form-control" title="Description" rows="10" @bind-Value="Item.Description" placeholder="Enter event description" required ></InputTextArea>
                 </div>
             </div>
         </div>
@@ -49,7 +51,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlReg">Registration URL</label>
-                    <input type="url" class="form-control" title="RegURL" value="@Item.RegistrationURL" placeholder="Enter the registration URL" />
+                    <InputText type="url" class="form-control" title="RegURL" @bind-Value="Item.RegistrationURL" placeholder="Enter the registration URL" />
                 </div>
             </div>
 
@@ -57,14 +59,14 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlCFS">Call For Speaker URL</label>
-                    <input type="url" class="form-control" title="CFSURL" value="@Item.CallForSpeakersURL" placeholder="Enter the call for speaker URL" />
+                    <InputText type="url" class="form-control" title="CFSURL" @bind-Value="Item.CallForSpeakersURL" placeholder="Enter the call for speaker URL" />
                 </div>
             </div>
 
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlSchedule">Schedule URL</label>
-                    <input type="url" class="form-control" title="ScheduleURL" value="@Item.ScheduleURL" placeholder="Enter the schedule URL" />
+                    <InputText type="url" class="form-control" title="ScheduleURL" @bind-Value="Item.ScheduleURL" placeholder="Enter the schedule URL" />
                 </div>
             </div>
         </div>
@@ -75,7 +77,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlSpeakerList">Speaker List URL</label>
-                    <input type="url" class="form-control" title="SpeakerListURL" value="@Item.SpeakerListURL" placeholder="Enter the speaker list URL" />
+                    <InputText type="url" class="form-control" title="SpeakerListURL" @bind-Value="Item.SpeakerListURL" placeholder="Enter the speaker list URL" />
                 </div>
             </div>
 
@@ -83,14 +85,14 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlVolunteer">Volunteers URL</label>
-                    <input type="url" class="form-control" title="VolURL" value="@Item.VolunteerRequestURL" placeholder="Enter the volunteer request URL" />
+                    <InputText type="url" class="form-control" title="VolURL" @bind-Value="Item.VolunteerRequestURL" placeholder="Enter the volunteer request URL" />
                 </div>
             </div>
 
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlMap">Venue Map URL</label>
-                    <input type="url" class="form-control" title="VMapURL" value="@Item.VenueMap" placeholder="Enter the venue URL" />
+                    <InputText type="url" class="form-control" title="VMapURL" @bind-Value="Item.VenueMap" placeholder="Enter the venue URL" />
                 </div>
             </div>
         </div>
@@ -251,6 +253,20 @@
             <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Sponsors</h2>
         </div>
 
+        <div class="col-12 mt-3">
+            <div class="col align-content-center form-check">
+                <label for="checkboxSponsorBens" class="form-check-label">Sponsor Benefits</label>
+                <InputTextArea type="text" class="form-control" rows="5" @bind-Value="Item.SponsorBenefits" title="SponsorBenefits" placeholder="Enter description for the sponsors benefits"></InputTextArea>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="col text-center form-check">
+                <InputCheckbox type="checkbox" class="form-check-input checkbox-size" @bind-Value="Item.SponsorMenuItem" title="SponsorMenu" id="checkboxSponsMen" />
+                <label for="checkboxVir" class="form-check-label">Sponsor Menu Item</label>
+            </div>
+        </div>
+
         @if (Item.Sponsors?.Any() == true)
         {
             @foreach (var Spon in Item.Sponsors)
@@ -347,39 +363,47 @@
 
         <div class="row mt-lg-5">
 
-            <div class="col-3">
+            <div class="col-4">
                 <div class="col align-content-center form-check">
-                    <input type="checkbox" class="form-check-input checkbox-size" title="HTL" id="checkboxHTL" />
+                    <InputCheckbox type="checkbox" class="form-check-input checkbox-size" @bind-Value="Item.HideTopLogo" title="HTL" id="checkboxHTL" />
                     <label for="checkboxHTL" class="form-check-label">Hide top Logo</label>
                 </div>
             </div>
 
 
-            <div class="col-3">
-                <div class="col align-content-center form-check">
-                    <input type="checkbox" class="form-check-input checkbox-size" title="COC" id="checkboxCOC" />
-                    <label for="checkboxCOC" class="form-check-label">Code of Conduct</label>
-                </div>
-            </div>
 
-            <div class="col-3">
+            <div class="col-4">
                 <div class="col align-content-center form-check">
-                    <input type="checkbox" class="form-check-input checkbox-size" title="HJR" id="checkboxHJR" />
+                    <InputCheckbox type="checkbox" class="form-check-input checkbox-size" @bind-Value="Item.HideJoinRoom" title="HJR" id="checkboxHJR" />
                     <label for="checkboxHJR" class="form-check-label">Hide Join Rooms</label>
                 </div>
             </div>
 
-            <div class="col-3">
+            <div class="col-4">
                 <div class="col align-content-center form-check">
-                    <input type="checkbox" class="form-check-input checkbox-size" title="Virtual" id="checkboxVir" />
-                    <label for="checkboxVir" class="form-check-label">Virtual</label>
+                    <InputCheckbox type="checkbox" class="form-check-input checkbox-size" @bind-Value="Item.OpenRegistrationNewTab" title="OpenRegNew" id="checkboxORNT" />
+                    <label for="checkboxORNT" class="form-check-label">Open Registration in a new tab</label>
                 </div>
             </div>
 
             <div class="col-12 mt-3">
-                <div class="form-group">
-                    <label for="txtDescription">Schedule Description</label>
+                <div class="col align-content-center form-check">
+                    <label for="checkboxCOC" class="form-check-label">Code of Conduct</label>
+                    <InputTextArea type="text" class="form-control" rows="5" @bind-Value="Item.CodeOfConduct" title="COC" placeholder="Enter Code of Conduct"></InputTextArea>
+                </div>
+            </div>
+            
+            <div class="col-12 mt-3">
+                <div class="col align-content-center form-check">
+                    <label for="txtSDescription">Schedule Description</label>
                     <InputTextArea type="text" class="form-control" title="Schedule description" rows="5" @bind-Value="Item.ScheduleDescription" placeholder="Enter schedule description"></InputTextArea>
+                </div>
+            </div>
+
+            <div class="col-12 mt-3">
+                <div class="col align-content-center form-check">
+                    <label for="txtScheduleApp">Schedule App URL</label>
+                    <InputText type="text" class="form-control" title="Schedule App" @bind-Value="Item.ScheduleApp" placeholder="Enter schedule App URL" />
                 </div>
             </div>
 

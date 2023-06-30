@@ -16,4 +16,8 @@
     <ProjectReference Include="..\DataSaturdays.Core\DataSaturdays.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Shared\" />
+  </ItemGroup>
+
 </Project>

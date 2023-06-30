@@ -26,7 +26,7 @@
                     @Html.Raw(Model.Event.Description)
                 </div>
                 <div class ="col-10 offset-1">
-                    <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@Model.Event.RegistrationURL">
+                    <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="@Model.Event.RegistrationURL" target="@Model.Event.GetRegistrationTarget()">
                         Register
                         now
                     </a>
@@ -131,7 +131,7 @@
         }
         
         
-        <!-- Venue -->
+        <!-- Venue -->        
         @if (Model.Event.VenueMap != null)
         {
             <section class="page-section" id="venue">
@@ -255,7 +255,7 @@
                             <h2 class="section-heading text-uppercase">Volunteers</h2>
                         </div>
                         <div class="col-12 alert alert-light" role="alert">
-                            @if (Model.Event.VolunteerRequestURL.IsWellFormedOriginalString())
+                            @if (Uri.IsWellFormedUriString(Model.Event.VolunteerRequestURL,UriKind.Absolute))
                             {                        
                                 <p>
                                     Volunteers are important to ensure the event runs smoothly. If you would like to help, 

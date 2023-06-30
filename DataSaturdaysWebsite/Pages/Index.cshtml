@@ -44,9 +44,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Events List show future events-->
+                            <!-- Events List to show future events-->
 
-                            @foreach(var item in Model.Events.Where(s => s.Date >= DateTime.Now.Date).OrderBy(s => s.Date))
+                            @foreach(var item in Model.Events.Where(s => (s.Date >= DateTime.Now.Date) && s.Published).OrderBy(s => s.Date))
                             {
                                 <tr>
                                     <td>
@@ -96,7 +96,7 @@
                             </thead>
                             <tbody>
 
-                                @foreach (var item in Model.Events.Where(s => s.Date < DateTime.Now.Date).OrderByDescending(s => s.Date))
+                                @foreach (var item in Model.Events.Where(s => (s.Date < DateTime.Now.Date) && s.Published).OrderByDescending(s => s.Date))
                                 {
                                     <tr>
                                         <td>
