@@ -233,7 +233,7 @@ namespace DataSaturdays.Core.Data
                     hide_top_logo               = @HideTopLogo, 
                     hide_join_room              = @HideJoinRoom, 
                     open_registration_new_tab   = @OpenRegistrationNewTab, 
-                    schedule_app               = @ScheduleApp, 
+                    schedule_app                = @ScheduleApp, 
                     schedule_description        = @ScheduleDescription, 
                     venue_map                   = @VenueMap, 
                     code_of_conduct             = @CodeOfConduct
