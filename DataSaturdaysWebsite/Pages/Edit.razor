@@ -1,9 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms;
 @using DataSaturdays.Core.Entities;
 @using DataSaturdays.Core.Services;
+@using Microsoft.JSInterop;
 
 @inject IEventService EventService
-
+@inject IJSRuntime JSRuntime
 
 <EditForm EditContext="_editContext" OnValidSubmit="Save" class="row mr-5 ml-5">
         
@@ -106,32 +107,36 @@
         <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
             <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Organizers</h2>
         </div>
-        @foreach(var Org in Item.Organizers)
+        @if (Item.Organizers?.Any() == true)
         {
-            <div class="row mt-lg-5">
+            @foreach (var Org in Item.Organizers)
+            {
+                <div class="row mt-lg-5">
 
-                <div class="col-4">
-                    <div class="form-group">
-                        <label for="txtOName">Organizer Name</label>
-                        <input type="text" class="form-control" title="OName" value="@Org.Name" />
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="txtOName">Organizer Name</label>
+                            <input type="text" class="form-control" title="OName" value="@Org.Name" />
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="urlOEmail">Organizer's email</label>
+                            <input type="email" class="form-control" title="OrgEmail" value="@Org.Email" />
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="urlOTwitt">Organizer's Twitter Tag</label>
+                            <input type="text" class="form-control" title="OrgTwitt" value="@Org.Twitter" />
+                        </div>
                     </div>
                 </div>
-
-                <div class="col-4">
-                    <div class="form-group">
-                        <label for="urlOEmail">Organizer's email</label>
-                        <input type="email" class="form-control" title="OrgEmail" value="@Org.Email" />
-                    </div>
-                </div>
-
-                <div class="col-4">
-                    <div class="form-group">
-                        <label for="urlOTwitt">Organizer's Twitter URL</label>
-                        <input type="url" class="form-control" title="OrgTwitt" value="@Org.Twitter" />
-                    </div>
-                </div>
-            </div>
+            }
         }
+
     </div>
     <!-- END ORGANIZERS -->
 
@@ -414,7 +419,16 @@
        <button type="submit" class="btn btn-primary mt-3 mr-3 align-content-center">Save</button>
        <a class="btn btn-outline-primary mt-3 align-content-center" href="/Dashboard">Cancel</a>        
     </div>
-        
+
+    @if (IsSaved)
+    {
+        <div class="col-10 offset-1 text-center">
+            <p>
+                Update successfull
+            </p>
+        </div>
+    }
+
 
 </EditForm>
 
@@ -426,32 +440,45 @@
 
     private EditContext _editContext = new EditContext(new Event());
 
+    private bool IsSaved { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Item = await EventService.GetEventByIdAsync(Id);
-        _editContext = new EditContext(Item);
+        try
+        {
+            Item = await EventService.GetEventByIdAsync(Id);
+            
+            if (Item == null)
+            {
+                Item = new Event();
+            }
 
-        if(Item != null)
-        {
-            // edit
+            _editContext = new EditContext(Item);
         }
-        else
+        catch(Exception ex)
         {
-            // new event
-            Item = new Event();
+            Console.WriteLine(ex.Message);
         }
     }
 
     protected async Task Save()
     {
-        if (Item.Id.Equals(Guid.Empty))
+        try
         {
-            await EventService.CreateEvent(Item);
+            if (Item.Id.Equals(Guid.Empty))
+            {
+                await EventService.CreateEvent(Item);
+                await JSRuntime.InvokeVoidAsync("history.back");
+            }
+            else
+            {
+                await EventService.UpdateEvent(Item);
+                IsSaved = true;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await EventService.UpdateEvent(Item);
+            Console.WriteLine(ex.Message);
         }
     }
 }

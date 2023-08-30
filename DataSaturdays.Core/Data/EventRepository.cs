@@ -51,28 +51,44 @@ namespace DataSaturdays.Core.Data
 
         public async Task CreateEvent(Event Input)
         {
-            Event newEvent = new Event();
             try {
                 Input.Id = Guid.NewGuid();
-                Input.Date = DateTime.Now;
-                
-                newEvent.Id = Input.Id;
-                newEvent.Description = Input.Description;
-                newEvent.Name = Input.Name;
-                newEvent.Date = Input.Date;
-                newEvent.RegistrationURL = Input.RegistrationURL;
-                newEvent.ScheduleURL = Input.ScheduleURL;
-                newEvent.SpeakerListURL = Input.SpeakerListURL;
-                newEvent.VolunteerRequestURL = Input.VolunteerRequestURL;
+                Input.Published = false;
 
-                throw new NotImplementedException("Not Implemented");
+                string sql = """"
+                INSERT INTO Events
+                VALUES (
+                    @Id,
+                    @Name,
+                    @Date,
+                    @Virtual,
+                    @Description,
+                    @RegistrationURL,
+                    @CallForSpeakersURL,
+                    @ScheduleURL,
+                    @SpeakerListURL,
+                    @VolunteerRequestURL,
+                    @HideTopLogo,
+                    @HideJoinRoom,
+                    @OpenRegistrationNewTab,
+                    @ScheduleApp,
+                    @ScheduleDescription,
+                    @VenueMap,
+                    @CodeOfConduct,
+                    @SponsorBenefits,
+                    @SponsorMenuItem,
+                    @PreconDescription,
+                    @Published
+                )
+                """";
 
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
             }
             catch(Exception ex)
             {
-                throw;
+                Console.WriteLine(ex.Message);
             }
-            //events.Add(Input);
         }
 
         public async Task<Event> GetEventByIdAsync(Guid eventId)
@@ -219,7 +235,9 @@ namespace DataSaturdays.Core.Data
 
         public async Task UpdateEvent(Event Input)
         {
-            string sql = """"
+            try
+            {
+                string sql = """"
                 UPDATE Events 
                 SET name                        = @Name,
                     event_date                  = @Date, 
@@ -236,7 +254,7 @@ namespace DataSaturdays.Core.Data
                     schedule_app                = @ScheduleApp, 
                     schedule_description        = @ScheduleDescription, 
                     venue_map                   = @VenueMap, 
-                    code_of_conduct             = @CodeOfConduct
+                    code_of_conduct             = @CodeOfConduct,
                     sponsor_benefits            = @SponsorBenefits, 
                     sponsor_menuitem            = @SponsorMenuItem, 
                     precon_description          = @PreconDescription, 
@@ -244,8 +262,14 @@ namespace DataSaturdays.Core.Data
                 WHERE event_id = @Id
                 """";
 
-            using var connection = new SqlConnection(_connectionString);
-            await connection.ExecuteAsync(sql, Input);
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 }

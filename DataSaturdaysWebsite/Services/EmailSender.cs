@@ -8,6 +8,8 @@ namespace DataSaturdaysWebsite.Services
     public class EmailSender : IEmailSender
     {
         private readonly ILogger _logger;
+        public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
+        private IConfiguration Configuration { get; }
 
         public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor,
                            ILogger<EmailSender> logger, IConfiguration configuration)
@@ -17,8 +19,6 @@ namespace DataSaturdaysWebsite.Services
             Configuration = configuration;
         }
 
-        public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
-        private IConfiguration Configuration { get; }
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
             Options.SendGridKey = Configuration["SendGrid:APIKey"];
