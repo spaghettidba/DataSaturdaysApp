@@ -126,21 +126,21 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="txtOName">Organizer Name</label>
-                                <InputText type="text" class="form-control" title="OName" @bind-Value="Org.Name" required/>
+                                <InputText type="text" class="form-control" title="OName" @bind-Value="Org.Name" placeholder="Enter organizer name" required />
                             </div>
                         </div>
 
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="urlOEmail">Organizer email</label>
-                                <InputText type="email" class="form-control" title="OrgEmail" @bind-Value="Org.Email"/>
+                                <InputText type="email" class="form-control" title="OrgEmail" @bind-Value="Org.Email" placeholder="Enter organizer email" />
                             </div>
                         </div>
 
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="urlOTwitt">Organizer Twitter Tag</label>
-                                <InputText type="text" class="form-control" title="OrgTwitt" @bind-Value="Org.Twitter"/>
+                                <InputText type="text" class="form-control" title="OrgTwitt" @bind-Value="Org.Twitter" placeholder="Enter organizer tag" />
                             </div>
                         </div>
 
@@ -231,15 +231,14 @@
             {
                 @if (!Pre.ToDelete)
                 {
-                    <div class="row mt-lg-5">
+                    <div class="row mt-lg-5 border" style="border-radius: 10px">
 
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="txtPName">Preconference Name</label>
-                                <InputText class="form-control" title="PreconName" @bind-Value="@Pre.Name"/>
+                                <InputText class="form-control" title="PreconName" @bind-Value="@Pre.Name" placeholder="Enter preconference name" required/>
                             </div>
                         </div>
-
 
                         <div class="col-12 mt-3">
                             <div class="form-group">
@@ -257,21 +256,21 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="txtSName">Speaker Name</label>
-                                            <InputText class="form-control" title="SName" @bind-Value="@Speaker.Name" />
+                                            <InputText class="form-control" title="SName" @bind-Value="@Speaker.Name" placeholder="Enter speaker name" required/>
                                         </div>
                                     </div>
 
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="urlSpeaker">Speaker URL</label>
-                                            <InputText type="url" class="form-control" title="SURL" @bind-Value="@Pre.RegistrationUrl" />
+                                            <InputText type="url" class="form-control" title="SURL" @bind-Value="@Pre.RegistrationUrl" placeholder="Enter speaker URL" />
                                         </div>
                                     </div>
 
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="urlSpeakerimg">Speaker Image URL</label>
-                                            <InputText type="url" class="form-control" title="SImgURL" @bind-Value="@Speaker.Image" />
+                                            <InputText type="url" class="form-control" title="SImgURL" @bind-Value="@Speaker.Image" placeholder="Enter image URL"/>
                                         </div>
                                     </div>
 
@@ -282,15 +281,20 @@
                             }
                         }
 
-                        @if(Pre.Speakers?.Where(x => x.ToDelete == false).Count() < 4)
+                        @if (Pre.Speakers?.Where(x => x.ToDelete == false).Count() == 0)
+                        {
+                            <div class="col-12 text-center d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddSpeakerSection(Pre))"> Add Speaker</button>
+                            </div>
+                        }else if(Pre.Speakers?.Where(x => x.ToDelete == false).Count() < 4)
                         {
                             <div class="col-1 text-center d-flex justify-content-center align-items-center">
                                 <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddSpeakerSection(Pre))"> Add</button>
                             </div>
                         }
-                    </div>
                     <div class="col-12 text-center d-flex justify-content-center align-items-center">
-                        <button type="button" class="btn btn-danger mt-3 mr-3 align-content-center" onclick="@(() => DeletePreconSection(Pre))">Delete Preconference</button>
+                        <button type="button" class="btn mt-3 mr-3 align-content-center border-danger text-danger" onclick="@(() => DeletePreconSection(Pre))">Delete Preconference</button>
+                    </div>
                     </div>
                 }
             }
@@ -333,29 +337,28 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="txtSName">Sponsor Name</label>
-                                <InputText class="form-control" title="SName" @bind-Value="@Spon.Name" required />
+                                <InputText class="form-control" title="SName" @bind-Value="@Spon.Name" placeholder="Enter sponsor name" required />
                             </div>
                         </div>
-
 
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="urlSImg">Sponsor Image</label>
-                                <InputText class="form-control" title="SImg" @bind-Value="@Spon.ImageURL" />
+                                <InputText class="form-control" title="SImg" @bind-Value="@Spon.ImageURL" placeholder="Enter image URL" />
                             </div>
                         </div>
 
                         <div class="col-3">
                             <div class="form-group">
-                                <label for="urlSLink">Sponsor Link</label>
-                                <InputText type="url" class="form-control" title="SLink" @bind-Value="@Spon.LinkURL" />
+                               <label for="urlSLink">Sponsor Link</label>
+                                <InputText type="url" class="form-control" title="SLink" @bind-Value="@Spon.LinkURL" placeholder="Enter sponsor URL" />
                             </div>
                         </div>
 
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="txtSLevel">Sponsor Level</label>
-                                <InputText class="form-control" title="SLevel" @bind-Value="@Spon.Level" />
+                                <InputText class="form-control" title="SLevel" @bind-Value="@Spon.Level" placeholder="Enter sponsor level" />
                             </div>
                         </div>
 
@@ -399,7 +402,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="urlRoom">Room URL</label>
-                                    <InputText type="text" class="form-control" title="RoomURL" @bind-Value="@Room.Name" />
+                                    <InputText type="text" class="form-control" title="RoomURL" @bind-Value="@Room.Name" placeholder="Enter room URL" />
                                 </div>
                             </div>
 
@@ -429,7 +432,7 @@
 
             <div class="col-4">
                 <div class="col align-content-center form-check">
-                    <InputCheckbox type="checkbox" class="form-check-input checkbox-size" @bind-Value="Item.HideTopLogo" title="HTL" id="checkboxHTL" />
+                    <InputCheckbox type="checkbox" class="form-check-input checkbox-size" @bind-Value="Item.HideTopLogo" title="HTL" id="checkboxHTL"/>
                     <label for="checkboxHTL" class="form-check-label">Hide top Logo</label>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 using Dapper;
+using DataSaturdays;
 using DataSaturdays.Core.Data;
 using DataSaturdays.Core.Services;
 using DataSaturdaysWebsite.Services;
@@ -24,6 +25,15 @@ builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 
+builder.Services.AddIdentityServer()
+        .AddInMemoryIdentityResources(Config.GetIdentityResources())
+        .AddTestUsers(Config.GetUsers())
+        .AddInMemoryClients(Config.GetClients())
+        .AddDeveloperSigningCredential(); //not something we want to use in a production environment;
+
+builder.Services.AddMvcCore().AddApiExplorer();
+
+
 // Dapper type handlers
 SqlMapper.AddTypeHandler(new DapperUriTypeHandler());
 
@@ -43,6 +53,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseIdentityServer();
 
 app.MapRazorPages();
 app.MapControllers();
