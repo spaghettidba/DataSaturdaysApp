@@ -14,12 +14,13 @@
         <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
             <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Standard infos</h2>
         </div>
+
         <div class="row mt-lg-5">
                 
             <div class="col-6">
                 <div class="form-group">
                     <label for="txtName">Name</label>
-                    <InputText class="form-control" title="Name" @bind-Value="Item.Name" placeholder="Enter event name" required />
+                    <InputText class="form-control" title="Name" @bind-Value="Item.Name" placeholder="Enter event name" required/>
                 </div>
             </div>
         
@@ -27,14 +28,14 @@
             <div class="col-4">
                 <div class="form-group">
                     <label for="txtDate">Date</label>
-                    <InputDate class="form-control" title="Date" @bind-Value="Item.Date" placeholder="Enter event date" required />
+                    <InputDate class="form-control" title="Date" @bind-Value="Item.Date" placeholder="Enter event date" required/>
                 </div>
             </div>
 
             <div class="col-2">
                 <div class="col align-content-center form-check">
                     <label for="checkboxVir" class="form-check-label"> Virtual</label>
-                    <InputCheckbox type="checkbox" class="form-check-input checkbox-size mt-5 pt-md-5" @bind-Value="Item.Virtual" title="Virtual" id="checkboxVir" />
+                    <InputCheckbox type="checkbox" class="form-check-input checkbox-size mt-5 pt-md-5" @bind-Value="Item.Virtual" title="Virtual" id="checkboxVir"/>
                 </div>
             </div>
 
@@ -43,16 +44,18 @@
                     <label for="txtDescription">Description</label>
                     <InputTextArea type="text" class="form-control" title="Description" rows="10" @bind-Value="Item.Description" placeholder="Enter event description" required ></InputTextArea>
                 </div>
+
             </div>
         </div>
 
-        <br/>
+    <br/>
 
         <div class="row">
+
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlReg">Registration URL</label>
-                    <InputText type="url" class="form-control" title="RegURL" @bind-Value="Item.RegistrationURL" placeholder="Enter the registration URL" />
+                    <InputText type="url" class="form-control" title="RegURL" @bind-Value="Item.RegistrationURL" placeholder="Enter the registration URL"/>
                 </div>
             </div>
 
@@ -60,25 +63,27 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlCFS">Call For Speaker URL</label>
-                    <InputText type="url" class="form-control" title="CFSURL" @bind-Value="Item.CallForSpeakersURL" placeholder="Enter the call for speaker URL" />
+                    <InputText type="url" class="form-control" title="CFSURL" @bind-Value="Item.CallForSpeakersURL" placeholder="Enter the call for speaker URL"/>
                 </div>
             </div>
 
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlSchedule">Schedule URL</label>
-                    <InputText type="url" class="form-control" title="ScheduleURL" @bind-Value="Item.ScheduleURL" placeholder="Enter the schedule URL" />
+                    <InputText type="url" class="form-control" title="ScheduleURL" @bind-Value="Item.ScheduleURL" placeholder="Enter the schedule URL"/>
                 </div>
             </div>
+
         </div>
 
-        <br />
+    <br/>
 
         <div class="row">
+
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlSpeakerList">Speaker List URL</label>
-                    <InputText type="url" class="form-control" title="SpeakerListURL" @bind-Value="Item.SpeakerListURL" placeholder="Enter the speaker list URL" />
+                    <InputText type="url" class="form-control" title="SpeakerListURL" @bind-Value="Item.SpeakerListURL" placeholder="Enter the speaker list URL"/>
                 </div>
             </div>
 
@@ -86,178 +91,223 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlVolunteer">Volunteers URL</label>
-                    <InputText type="url" class="form-control" title="VolURL" @bind-Value="Item.VolunteerRequestURL" placeholder="Enter the volunteer request URL" />
+                    <InputText type="url" class="form-control" title="VolURL" @bind-Value="Item.VolunteerRequestURL" placeholder="Enter the volunteer request URL"/>
                 </div>
             </div>
 
             <div class="col-12">
                 <div class="form-group">
                     <label for="urlMap">Venue Map URL</label>
-                    <InputText type="url" class="form-control" title="VMapURL" @bind-Value="Item.VenueMap" placeholder="Enter the venue URL" />
+                    <InputText type="url" class="form-control" title="VMapURL" @bind-Value="Item.VenueMap" placeholder="Enter the venue URL"/>
                 </div>
             </div>
+
         </div>
 
     </div>
 
-    <br />
+    <br/>
 
     <!-- START ORGANIZERS -->
     <div class="col-6 pt-5 offset-3 highlight">
+
         <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
             <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Organizers</h2>
         </div>
+
         @if (Item.Organizers?.Any() == true)
         {
             @foreach (var Org in Item.Organizers)
             {
-                <div class="row mt-lg-5">
+                @if (!Org.ToDelete)
+                {
+                    <div class="row mt-lg-5">
 
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="txtOName">Organizer Name</label>
-                            <input type="text" class="form-control" title="OName" value="@Org.Name" />
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="txtOName">Organizer Name</label>
+                                <InputText type="text" class="form-control" title="OName" @bind-Value="Org.Name" required/>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="urlOEmail">Organizer's email</label>
-                            <input type="email" class="form-control" title="OrgEmail" value="@Org.Email" />
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="urlOEmail">Organizer email</label>
+                                <InputText type="email" class="form-control" title="OrgEmail" @bind-Value="Org.Email"/>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="urlOTwitt">Organizer's Twitter Tag</label>
-                            <input type="text" class="form-control" title="OrgTwitt" value="@Org.Twitter" />
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="urlOTwitt">Organizer Twitter Tag</label>
+                                <InputText type="text" class="form-control" title="OrgTwitt" @bind-Value="Org.Twitter"/>
+                            </div>
                         </div>
+
+                        <div class="col-3 text-center d-flex justify-content-center align-items-center">
+                            <button type="button" class="btn btn-danger mt-3 mr-3 align-content-center" onclick="@(() => DeleteOrganizerSection(Org))">Delete</button>
+                        </div>
+
                     </div>
-                </div>
+                }
             }
         }
+
+        <div class="col-10 offset-1 text-center">
+            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddOrganizerSection())">Add Item</button>
+        </div>
 
     </div>
     <!-- END ORGANIZERS -->
 
     <!-- END OBLIGATORY -->
         
-    <br>
+    <br/>
 
     <!-- START MILESTONES -->
     <div class="col-6 pt-3 offset-3 highlight">
+
         <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
             <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Milestones</h2>
         </div>
+
         @if (Item.Milestones?.Any() == true)
         {
             @foreach (var Mil in Item.Milestones)
             {
+                @if (!Mil.ToDelete)
+                {
                 <div class="row mt-lg-5">
 
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="form-group">
                             <label for="txtMName">Milestone Name</label>
-                            <input type="text" class="form-control" title="MName" value="@Mil.Name" />
+                            <InputText class="form-control" title="MName" @bind-Value="@Mil.Name" placeholder="Enter milestone name" required/>
                         </div>
                     </div>
 
-
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="form-group">
                             <label for="txtMDate">Milestone Date</label>
-                            <input type="text" class="form-control" title="MDate" value="@Mil.Date" />
+                                <InputDate class="form-control" title="MDate" @bind-Value="@Mil.Date" placeholder="Enter milestone date"/>
                         </div>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="form-group">
                             <label for="txtMOrder">Milestone Order</label>
-                            <input type="text" class="form-control" title="MOrder" value="@Mil.Order" />
+                                <!--<input class="form-control" title="MOrder" bind="Mil.Order" onchange="(() => MarkToUpdate(Mil))" required />-->
+                                <InputText class="form-control" title="MOrder" @bind-Value="@Mil.Order" placeholder="Enter milestone order" required/>
                         </div>
+                    </div>
+
+                    <div class="col-3 text-center d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-danger mt-3 mr-3 align-content-center" onclick="@(() => DeleteMileStoneSection(Mil))">Delete</button>
                     </div>
 
                 </div>
+                }
             }
         }
-        else
-        {
-            <div class="col-10 offset-1 text-center">
-                <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center">Add Item</button>             
-            </div>
-        }
+
+        <div class="col-10 offset-1 text-center">
+            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddMilestoneSection())">Add Item</button>             
+        </div>
+
     </div>
     <!-- END MILESTONES -->
 
-    <br />
+    <br/>
 
     <!-- START PRECONFERENCE -->
     <div class="col-6 pt-3 offset-3 highlight">
+
         <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
-            <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Peconference</h2>
+            <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Preconference</h2>
         </div>
-
-        <div class="row mt-lg-5">
-
-            <div class="col-12">
-                <div class="form-group">
-                    <label for="txtPName">Preconference Name</label>
-                    <input type="text" class="form-control" title="PreconName" value=""/>
-                </div>
-            </div>
-
-
-            <div class="col-12 mt-3">
-                <div class="form-group">
-                    <label for="txtPrecDescription">Precon Description</label>
-                    <InputTextArea type="text" class="form-control" title="Precon Description" rows="8" @bind-Value="Item.PreconDescription" placeholder="Enter precon description"></InputTextArea>
-                </div>
-            </div>
-
-            @if (Item.Precons?.Any() == true)
+        @if(Item.Precons?.Any() == true)
+        {
+            @foreach(var Pre in Item.Precons)
             {
-                @foreach (var Speaker in Item.Precons)
+                @if (!Pre.ToDelete)
                 {
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="txtSName">Speaker Name</label>
-                            <input type="text" class="form-control" title="SName" value="@Speaker.Name" />
-                        </div>
-                    </div>
+                    <div class="row mt-lg-5">
 
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="urlSpeaker">Speaker URL</label>
-                            <input type="url" class="form-control" title="SURL" value="" />
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="txtPName">Preconference Name</label>
+                                <InputText class="form-control" title="PreconName" @bind-Value="@Pre.Name"/>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="urlSpeakerimg">Speaker Image URL</label>
-                            <input type="url" class="form-control" title="SImgURL" value="" />
+
+                        <div class="col-12 mt-3">
+                            <div class="form-group">
+                                <label for="txtPrecDescription">Preconference Description</label>
+                                <InputTextArea class="form-control" title="Preconference Description" rows="8" @bind-Value="@Pre.Description" placeholder="Enter preconference description"></InputTextArea>
+                            </div>
                         </div>
+
+                        @if (Pre.Speakers?.Any() == true)
+                        {
+                            @foreach (var Speaker in Pre.Speakers)
+                            {
+                                @if (!Speaker.ToDelete)
+                                {
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="txtSName">Speaker Name</label>
+                                            <InputText class="form-control" title="SName" @bind-Value="@Speaker.Name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="urlSpeaker">Speaker URL</label>
+                                            <InputText type="url" class="form-control" title="SURL" @bind-Value="@Pre.RegistrationUrl" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="urlSpeakerimg">Speaker Image URL</label>
+                                            <InputText type="url" class="form-control" title="SImgURL" @bind-Value="@Speaker.Image" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-1 text-center d-flex justify-content-center align-items-center">
+                                        <button type="button" class="btn btn-danger mt-3 mr-3 align-content-center " onclick="@(() => DeleteSpeakerSection(Speaker))">X</button>
+                                    </div>
+                                }
+                            }
+                        }
+
+                        @if(Pre.Speakers?.Where(x => x.ToDelete == false).Count() < 4)
+                        {
+                            <div class="col-1 text-center d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddSpeakerSection(Pre))"> Add</button>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-12 text-center d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-danger mt-3 mr-3 align-content-center" onclick="@(() => DeletePreconSection(Pre))">Delete Preconference</button>
                     </div>
                 }
             }
-            else
-            {
-                <div class="col-10 offset-1 text-center">
-                    <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center">Add Item</button>
-                </div>
-            }
+        }
+        <div class="col-10 offset-1 text-center">
+            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddPreconSection())">Add Preconference</button>
         </div>
     </div>
     <!-- END PRECONFERENCE -->
 
-    <br />
+    <br/>
 
     <!-- START SPONSORS -->
     <div class="col-6 pt-3 offset-3 highlight">
         <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
             <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Sponsors</h2>
         </div>
-
         <div class="col-12 mt-3">
             <div class="col align-content-center form-check">
                 <label for="checkboxSponsorBens" class="form-check-label">Sponsor Benefits</label>
@@ -267,7 +317,7 @@
 
         <div class="col-4">
             <div class="col text-center form-check">
-                <InputCheckbox type="checkbox" class="form-check-input checkbox-size" @bind-Value="Item.SponsorMenuItem" title="SponsorMenu" id="checkboxSponsMen" />
+                <InputCheckbox type="checkbox" class="form-check-input checkbox-size" @bind-Value="Item.SponsorMenuItem" title="SponsorMenu" id="checkboxSponsMen"/>
                 <label for="checkboxVir" class="form-check-label">Sponsor Menu Item</label>
             </div>
         </div>
@@ -276,53 +326,56 @@
         {
             @foreach (var Spon in Item.Sponsors)
             {
+                @if (!Spon.ToDelete)
+                {
+                    <div class="row mt-lg-5">
 
-                <div class="row mt-lg-5">
-
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label for="txtSName">Sponsor Name</label>
-                            <input type="text" class="form-control" title="SName" value="@Spon.Name" />
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="txtSName">Sponsor Name</label>
+                                <InputText class="form-control" title="SName" @bind-Value="@Spon.Name" required />
+                            </div>
                         </div>
-                    </div>
 
 
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label for="urlSImg">Sponsor Image</label>
-                            <input type="url" class="form-control" title="SImg" value="@Spon.ImageURL" />
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="urlSImg">Sponsor Image</label>
+                                <InputText class="form-control" title="SImg" @bind-Value="@Spon.ImageURL" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label for="urlSLink">Sponsor Link</label>
-                            <input type="url" class="form-control" title="SLink" value="@Spon.LinkURL" />
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="urlSLink">Sponsor Link</label>
+                                <InputText type="url" class="form-control" title="SLink" @bind-Value="@Spon.LinkURL" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label for="txtSLevel">Sponsor Level</label>
-                            <input type="text" class="form-control" title="SLevel" value="@Spon.Level" />
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="txtSLevel">Sponsor Level</label>
+                                <InputText class="form-control" title="SLevel" @bind-Value="@Spon.Level" />
+                            </div>
                         </div>
-                    </div>
 
-                </div>
+                        <div class="col-10 offset-1 text-center d-flex justify-content-center align-items-center">
+                            <button type="button" class="btn btn-danger mt-3 mr-3 align-content-center" onclick="@(() => DeleteSponsorSection(Spon))">Delete</button>
+                        </div>
+
+                    </div>
+                } 
             }
         }
-        else
-        {
-            <div class="col-10 offset-1 text-center">
-                <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center">Add Item</button>
-            </div>
-        }
+        <div class="col-10 offset-1 text-center">
+            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddSponsorSection())">Add Item</button>
+        </div>
     </div>
     <!-- END SPONSORS -->
 
-    <br />
+    <br/>
 
-    <!-- START VIRTUAL --!>
+    <!-- START VIRTUAL -->
     <div class="row mt-lg-5 mt-5 ">
         <div class="col-6 pt-3 offset-3 highlight">
             <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
@@ -333,32 +386,38 @@
             {
                 @foreach (var Room in Item.Rooms)
                 {
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="txtRName">Room Name</label>
-                            <input type="text" class="form-control" title="RName" value="@Room.Name"/>
-                        </div>
-                    </div>
+                    @if (!Room.ToDelete)
+                    {
+                        <div class="row mt-lg-5">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="txtRName">Room Name</label>
+                                    <InputText type="text" class="form-control" title="RName" @bind-Value="@Room.Name" placeholder="Enter Room Name" required />
+                                </div>
+                            </div>
 
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="urlRoom">Room URL</label>
-                            <input type="url" class="form-control" title="RoomURL" value="@Room.JoinURL" />
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="urlRoom">Room URL</label>
+                                    <InputText type="text" class="form-control" title="RoomURL" @bind-Value="@Room.Name" />
+                                </div>
+                            </div>
+
+                            <div class="col-4 text-center d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn btn-danger mt-3 mr-3 align-content-center" onclick="@(() => DeleteRoomSection(Room))">Delete</button>
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             }
-            else
-            {
-                <div class="col-10 offset-1 text-center">
-                    <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center">Add Item</button>
-                </div>
-            }
+            <div class="col-10 offset-1 text-center">
+                    <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" id="addItemButton" onclick="@(() => AddRoomSection())">Add Item</button>
+            </div>
         </div>
     </div>
     <!-- END VIRTUAL -->
 
-    <br />
+    <br/>
 
     <!-- START OTHER -->
     <div class="col-6 pt-3 offset-3 highlight">
@@ -374,8 +433,6 @@
                     <label for="checkboxHTL" class="form-check-label">Hide top Logo</label>
                 </div>
             </div>
-
-
 
             <div class="col-4">
                 <div class="col align-content-center form-check">
@@ -415,6 +472,7 @@
         </div>
     </div>
     <!-- END OTHER -->
+
     <div class="col-10 offset-1 text-center">      
        <button type="submit" class="btn btn-primary mt-3 mr-3 align-content-center">Save</button>
        <a class="btn btn-outline-primary mt-3 align-content-center" href="/Dashboard">Cancel</a>        
@@ -422,16 +480,12 @@
 
     @if (IsSaved)
     {
-        <div class="col-10 offset-1 text-center">
-            <p>
-                Update successfull
-            </p>
+        <div class="col-2 mt-4 border border-primary rounded text-center text-primary offset-5 d-flex justify-content-center align-items-center" style="height: 40px">
+            Update successfull
         </div>
     }
 
-
 </EditForm>
-
 
 @code {
     [Parameter] public Guid Id { get; set; }
@@ -447,7 +501,7 @@
         try
         {
             Item = await EventService.GetEventByIdAsync(Id);
-            
+
             if (Item == null)
             {
                 Item = new Event();
@@ -475,10 +529,211 @@
                 await EventService.UpdateEvent(Item);
                 IsSaved = true;
             }
+
+            if (Item.Milestones?.Any() == true)
+            {
+                foreach (var Mil in Item.Milestones)
+                {
+                    if (Mil.ToDelete)
+                    {
+                        await EventService.DeleteMilestone(Mil);
+                    }
+                    if (Mil.Id.Equals(Guid.Empty))
+                    {
+                        Mil.EventId = Item.Id;
+                        await EventService.CreateMilestone(Mil);
+                    }
+                    else
+                    {
+                        await EventService.UpdateMilestone(Mil);
+                    }
+                }
+            }
+
+            if (Item.Organizers?.Any() == true)
+            {
+                foreach (var Org in Item.Organizers)
+                {
+                    if (Org.ToDelete)
+                    {
+                        await EventService.DeleteOrganizer(Org);
+                    }
+                    if (Org.Id.Equals(Guid.Empty))
+                    {
+                        Org.EventId = Item.Id;
+                        await EventService.CreateOrganizer(Org);
+                    }
+                    else
+                    {
+                        await EventService.UpdateOrganizer(Org);
+                    }
+                }
+            }
+
+            if (Item.Rooms?.Any() == true)
+            {
+                foreach (var Roo in Item.Rooms)
+                {
+                    if (Roo.ToDelete)
+                    {
+                        await EventService.DeleteRoom(Roo);
+                    }
+                    if (Roo.Id.Equals(Guid.Empty))
+                    {
+                        Roo.EventId = Item.Id;
+                        await EventService.CreateRoom(Roo);
+                    }
+                    else
+                    {
+                        await EventService.UpdateRoom(Roo);
+                    }
+                }
+            }            
+
+            if (Item.Sponsors?.Any() == true)
+            {
+                foreach (var Spo in Item.Sponsors)
+                {
+                    if (Spo.ToDelete)
+                    {
+                        await EventService.DeleteSponsor(Spo);
+                    }
+                    if (Spo.Id.Equals(Guid.Empty))
+                    {
+                        Spo.EventId = Item.Id;
+                        await EventService.CreateSponsor(Spo);
+                    }
+                    else
+                    {
+                        await EventService.UpdateSponsor(Spo);
+                    }
+                }
+            }            
+
+            if (Item.Precons?.Any() == true)
+            {
+                foreach (var Pre in Item.Precons)
+                {
+                    if (Pre.ToDelete)
+                    {
+                        foreach (var Spe in Pre.Speakers)
+                        {
+                            await EventService.DeleteSpeaker(Spe);
+                        }
+                        await EventService.DeletePrecon(Pre);
+                    }
+                    if (Pre.Id.Equals(Guid.Empty))
+                    {
+                        Pre.EventId = Item.Id;
+                        await EventService.CreatePrecon(Pre);
+                        foreach(var Spe in Pre.Speakers)
+                        {
+                            if (!Spe.ToDelete)
+                            {
+                                Spe.PreconId = Pre.Id;
+                                await EventService.CreateSpeaker(Spe);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        await EventService.UpdatePrecon(Pre);
+                        foreach(var Spe in Pre.Speakers)
+                        {
+                            if (Spe.ToDelete)
+                            {
+                                await EventService.DeleteSpeaker(Spe);
+                            }
+                            else
+                            {
+                                await EventService.UpdateSpeaker(Spe);
+                            }
+                        }
+                    }
+                }
+            }                 
+
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
     }
+
+    protected void AddMilestoneSection()
+    {
+        Milestone Mil = new Milestone();
+        Item.Milestones?.Add(Mil);
+    }
+
+    protected void AddOrganizerSection()
+    {
+        Organizer Org = new Organizer();
+        Item.Organizers?.Add(Org);
+    }
+
+    protected void AddRoomSection()
+    {
+        Room Roo = new Room();
+        Item.Rooms?.Add(Roo);
+    }    
+
+    protected void AddPreconSection()
+    {
+        Preconference Pre = new Preconference();
+        Item.Precons?.Add(Pre);
+    }    
+
+    protected void AddSponsorSection()
+    {
+        Sponsor Spo = new Sponsor();
+        Item.Sponsors?.Add(Spo);
+    }    
+
+    protected void AddSpeakerSection(Preconference Pre)
+    {
+        Speaker Spe = new Speaker();
+        Pre.Speakers?.Add(Spe);
+        StateHasChanged();
+    }
+
+    protected void DeleteMileStoneSection(Milestone Mil)
+    {
+        Mil.ToDelete = true;
+        StateHasChanged();
+    }
+
+    protected void DeleteOrganizerSection(Organizer Org)
+    {
+        Org.ToDelete = true;
+        StateHasChanged();
+    }
+
+    protected void DeleteRoomSection(Room Roo)
+    {
+        Roo.ToDelete = true;
+        StateHasChanged();
+    }    
+
+    protected void DeleteSponsorSection(Sponsor Spo)
+    {
+        Spo.ToDelete = true;
+        StateHasChanged();
+    }    
+
+    protected void DeletePreconSection(Preconference Pre)
+    {
+        Pre.ToDelete = true;
+        StateHasChanged();
+    }    
+    protected void DeleteSpeakerSection(Speaker Spe)
+    {
+        Spe.ToDelete = true;
+        StateHasChanged();
+    }
+
+    /*protected void MarkToUpdate(Milestone Mil)
+    {
+        Mil.IsChanged = true;
+    }*/
 }

@@ -9,9 +9,10 @@ namespace DataSaturdays.Core.Entities
     public class Organizer
     {
         public Guid Id { get; set; }
+        public Guid EventId { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public Uri? Twitter { get; set; }
-
+        public string? Email { get; set; }
+        public string? Twitter { get; set; }
+        public bool ToDelete { get; set; }
     }
 }

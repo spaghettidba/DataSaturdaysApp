@@ -110,25 +110,11 @@ namespace DataSaturdays.Core.Data
                         P.precon_id         AS Id,
                         P.name              AS Name,
                         P.description       AS Description,
-                        P.registration_url  AS RegistrationUrl,
-                        --------------------------------------
-                        S.speaker_order,    -- SPLIT
-                        S.speaker_name AS Name, 
-                        S.speaker_url AS Profile, 
-                        S.speaker_img AS [Image]
+                        P.registration_url  AS RegistrationUrl
+
                     FROM Precons AS P
-                    OUTER APPLY (
-                        SELECT *
-                        FROM (
-                            VALUES 
-                                (1, P.speaker1_name, P.speaker1_url, P.speaker1_img),
-                                (2, P.speaker2_name, P.speaker2_url, P.speaker2_img),
-                                (3, P.speaker3_name, P.speaker3_url, P.speaker3_img),
-                                (4, P.speaker4_name, P.speaker4_url, P.speaker4_img)
-                        ) AS S (speaker_order, speaker_name, speaker_url, speaker_img)
-                        WHERE COALESCE(speaker_name, speaker_url, speaker_img) IS NOT NULL
-                    ) AS S
                     WHERE P.event_id = @eventId
+                    
                     """;
 
                 if (evt == null)
@@ -136,9 +122,29 @@ namespace DataSaturdays.Core.Data
                     return null;
                 }
 
+                var precons = await connection.QueryAsync<Preconference>(query, new { eventId });
 
-                var precons = await connection.QueryAsync<Precon, Speaker, Precon>(query, (p, s) => { p.Speakers.Add(s); return p; }, new { eventId }, splitOn: "speaker_order");
                 evt.Precons?.AddRange(precons);
+
+                query =
+                    """
+                    SELECT 
+                        S.speaker_id         AS Id,
+                        S.precon_id          AS PreconId,
+                        S.name               AS Name,
+                        S.speaker_url        AS Profile,
+                        S.speaker_image_url  AS Image
+
+                    FROM Speakers AS S
+                    WHERE S.precon_id = @Id
+                    
+                    """;
+
+                foreach (var Pre in evt.Precons)
+                {
+                    var speakers = await connection.QueryAsync<Speaker>(query, new { Pre.Id });
+                    Pre.Speakers.AddRange(speakers);
+;                }
 
                 query =
                     """
@@ -148,6 +154,7 @@ namespace DataSaturdays.Core.Data
                         R.URL      AS JoinURL
                     FROM Rooms AS R
                     WHERE R.event_id = @eventId
+                    ORDER BY R.name
                     """;
                 var rooms = await connection.QueryAsync<Room>(query, new { eventId });
                 evt.Rooms?.AddRange(rooms);
@@ -162,6 +169,7 @@ namespace DataSaturdays.Core.Data
                         M.milestone_date_text AS [DateText]
                     FROM Milestones AS M
                     WHERE M.event_id = @eventId
+                    ORDER BY M.[order]
                     """;
 
                 var milestones = await connection.QueryAsync<Milestone>(query, new { eventId });
@@ -176,6 +184,7 @@ namespace DataSaturdays.Core.Data
                         O.twitter           AS Twitter
                     FROM Organizers AS O
                     WHERE O.event_id = @eventId
+                    ORDER BY O.name
                     """";
 
                 var organizers = await connection.QueryAsync<Organizer>(query, new { eventId });
@@ -188,11 +197,12 @@ namespace DataSaturdays.Core.Data
                     	,S.sponsor_level AS [Level]
                     	,S.image_url AS [ImageURL]
                     	,S.image_bin AS [Image]
-                    	,S.link_url AS [Link]
+                    	,S.link_url AS [LinkURL]
                     	,S.height_px AS [Height]
                     	,S.width_px AS [Width]
                     	,S.margin_top_px [Top]
                     	,S.margin_bottom_px [Bottom]
+                        ,S.name AS [Name]
                     FROM Sponsors AS S
                     WHERE S.event_id = @eventId
                     """";
@@ -270,6 +280,409 @@ namespace DataSaturdays.Core.Data
                 Console.WriteLine(ex.Message);
             }
 
+        }
+
+        public async Task UpdateMilestone(Milestone Input)
+        {
+            try
+            {
+                string sql = """"
+                UPDATE Milestones 
+                SET name = @Name,
+                    milestone_date = @Date,
+                    [order] = @Order
+                WHERE milestone_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        public async Task CreateMilestone(Milestone Input)
+        {
+            try
+            {
+                Input.Id = Guid.NewGuid();
+
+                string sql = """"
+                INSERT INTO Milestones 
+                VALUES(
+                    @Id,
+                    @EventId,
+                    @Order,
+                    @Name,
+                    @Date,
+                    @DateText
+                )
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public async Task UpdateOrganizer(Organizer Input)
+        {
+            try
+            {
+                string sql = """"
+                UPDATE Organizers 
+                SET name = @Name,
+                    email = @Email,
+                    twitter = @Twitter
+                WHERE organizer_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        public async Task CreateOrganizer(Organizer Input)
+        {
+            try
+            {
+                Input.Id = Guid.NewGuid();
+
+                string sql = """"
+                INSERT INTO Organizers
+                VALUES(
+                    @Id,
+                    @EventId,
+                    @Name,
+                    @Email,
+                    @Twitter
+                )
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public async Task UpdateSponsor(Sponsor Input)
+        {
+            try
+            {
+                string sql = """"
+                UPDATE Sponsors
+                SET name = @Name,
+                    sponsor_level = @Level,
+                    image_url = @ImageURL,
+                    image_bin = @Image,
+                    link_url = @LinkURL,
+                    width_px = @Width,
+                    height_px = @Height,
+                    margin_top_px = @MarginTop,
+                    margin_bottom_px = @MarginBottom
+                WHERE sponsor_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        public async Task CreateSponsor(Sponsor Input)
+        {
+            try
+            {
+                Input.Id = Guid.NewGuid();
+
+                string sql = """"
+                INSERT INTO Sponsors 
+                VALUES(
+                    @Id,
+                    @EventId,
+                    @Level,
+                    @ImageURL,
+                    @Image,
+                    @LinkURL,
+                    @Width,
+                    @Height,
+                    @MarginTop,
+                    @MarginBottom,
+                    @Name
+                )
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public async Task UpdateRoom(Room Input)
+        {
+            try
+            {
+                string sql = """"
+                UPDATE Rooms 
+                SET name = @Name,
+                    URL = @JoinURL
+                WHERE room_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        public async Task CreateRoom(Room Input)
+        {
+            try
+            {
+                Input.Id = Guid.NewGuid();
+
+                string sql = """"
+                INSERT INTO Rooms
+                VALUES(
+                    @Id,
+                    @EventId,
+                    @Name,
+                    @JoinURL
+                )
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }        
+        public async Task UpdatePrecon(Preconference Input)
+        {
+            try
+            {
+                string sql = """"
+                UPDATE Precons
+                SET name = @Name,
+                    description = @Description,
+                    registration_url = @RegistrationUrl
+                WHERE precon_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        public async Task CreatePrecon(Preconference Input)
+        {
+            try
+            {
+                Input.Id = Guid.NewGuid();
+
+                string sql = """"
+                INSERT INTO Precons
+                VALUES(
+                    @Id,
+                    @EventId,
+                    @Name,
+                    @Description,
+                    @RegistrationUrl
+                )
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }       
+        
+        public async Task UpdateSpeaker(Speaker Input)
+        {
+            try
+            {
+                string sql = """"
+                UPDATE Speakers
+                SET name = @Name,
+                    speaker_url = @Profile,
+                    speaker_image_url = @Image
+                WHERE speaker_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        public async Task CreateSpeaker(Speaker Input)
+        {
+            try
+            {
+                Input.Id = Guid.NewGuid();
+
+                string sql = """"
+                INSERT INTO Speakers
+                VALUES(
+                    @Id,
+                    @PreconId,
+                    @Name,
+                    @Profile,
+                    @Image
+                )
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task DeleteMilestone(Milestone Input)
+        {
+            try
+            {
+                string sql = """"
+                DELETE FROM Milestones
+                WHERE milestone_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task DeleteOrganizer(Organizer Input)
+        {
+            try
+            {
+                string sql = """"
+                DELETE FROM Organizers
+                WHERE organizer_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task DeleteRoom(Room Input)
+        {
+            try
+            {
+                string sql = """"
+                DELETE FROM Rooms
+                WHERE room_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }  
+        
+        public async Task DeleteSponsor(Sponsor Input)
+        {
+            try
+            {
+                string sql = """"
+                DELETE FROM Sponsors
+                WHERE sponsor_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }        
+        
+        public async Task DeletePrecon(Preconference Input)
+        {
+            try
+            {
+                string sql = """"
+                DELETE FROM Precons
+                WHERE precon_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }        
+        
+        public async Task DeleteSpeaker(Speaker Input)
+        {
+            try
+            {
+                string sql = """"
+                DELETE FROM Speakers
+                WHERE speaker_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

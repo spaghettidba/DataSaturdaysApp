@@ -2,7 +2,8 @@
 (
 	[sponsor_id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
     [event_id] UNIQUEIDENTIFIER NOT NULL,
-    [sponsor_level] varchar(20),
+    [name] VARCHAR(128) NOT NULL,
+    [sponsor_level] VARCHAR(20),
     [image_url] VARCHAR(2000) NULL, 
     [image_bin] VARBINARY(MAX) NULL, 
     [link_url] VARCHAR(2000) NULL, 
