@@ -1,14 +1,38 @@
 using Dapper;
-using DataSaturdays;
 using DataSaturdays.Core.Data;
 using DataSaturdays.Core.Services;
 using DataSaturdaysWebsite.Services;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using DataSaturdays.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    options.Cookie.HttpOnly = true;
+    //options.Cookie.Expiration 
+
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    options.LoginPath = "/Identity/Account/Login";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
+    //options.ReturnUrlParameter=""
+});
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+        options => {
+            options.SignIn.RequireConfirmedAccount = false;
+        }
+        )
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -24,12 +48,6 @@ builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 // Add custom stuff
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
-
-builder.Services.AddIdentityServer()
-        .AddInMemoryIdentityResources(Config.GetIdentityResources())
-        .AddTestUsers(Config.GetUsers())
-        .AddInMemoryClients(Config.GetClients())
-        .AddDeveloperSigningCredential(); //not something we want to use in a production environment;
 
 builder.Services.AddMvcCore().AddApiExplorer();
 
@@ -51,9 +69,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
-app.UseIdentityServer();
 
 app.MapRazorPages();
 app.MapControllers();

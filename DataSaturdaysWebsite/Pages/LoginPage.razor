@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Components.Forms;
+@using DataSaturdays.Core.Services;
+@using DataSaturdays.Core.Data;
+@using Microsoft.AspNetCore.Components.Web;
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.JSInterop;
+
+@inject IUserService UserService
+
+<EditForm class="row mr-5 ml-5">
+    <div class="row mt-5">
+        <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
+            <div class="mb-3 text-black-center Subhead Subhead--spacious d-flex justify-content-center">
+                <h2 id="profile-settings-heading" data-view-component="true" class="Subhead-heading">Login</h2>
+            </div>
+            <div class="mb-3 text-black-center">
+                <label>User Name</label>
+                <InputText class="form-control" title="UserName" @bind-Value="User.UserName" placeholder="Enter username" required />
+            </div>
+            <div class="mb-3 text-black-center">
+                <label>Password</label>
+                <InputText type="password" class="form-control" title="Password" @bind-Value="User.PasswordHash" placeholder="Enter password" required />
+            </div>
+            <div class="mb-3 d-grid gab-2 d-flex justify-content-center">
+                <button class="btn btn-primary" onclick="@(() => _Login(User.UserName, User.PasswordHash))">Login</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public IdentityUser? User { get; set; } = new IdentityUser();
+
+    protected async Task _Login(string UserName, string Password)
+    {
+        await UserService.Login(UserName, Password);
+    }
+}
