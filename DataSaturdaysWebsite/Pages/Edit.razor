@@ -154,7 +154,7 @@
         }
 
         <div class="col-10 offset-1 text-center">
-            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddOrganizerSection())">Add Item</button>
+            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddOrganizerSection())">Add Organizer</button>
         </div>
 
     </div>
@@ -211,7 +211,7 @@
         }
 
         <div class="col-10 offset-1 text-center">
-            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddMilestoneSection())">Add Item</button>             
+            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddMilestoneSection())">Add Milestone</button>             
         </div>
 
     </div>
@@ -233,7 +233,7 @@
                 {
                     <div class="row mt-lg-5 border" style="border-radius: 10px">
 
-                        <div class="col-12">
+                        <div class="col-12 mt-4">
                             <div class="form-group">
                                 <label for="txtPName">Preconference Name</label>
                                 <InputText class="form-control" title="PreconName" @bind-Value="@Pre.Name" placeholder="Enter preconference name" required/>
@@ -292,7 +292,7 @@
                                 <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddSpeakerSection(Pre))"> Add</button>
                             </div>
                         }
-                    <div class="col-12 text-center d-flex justify-content-center align-items-center">
+                    <div class="col-12 mb-4 text-center d-flex justify-content-center align-items-center">
                         <button type="button" class="btn mt-3 mr-3 align-content-center border-danger text-danger" onclick="@(() => DeletePreconSection(Pre))">Delete Preconference</button>
                     </div>
                     </div>
@@ -371,7 +371,7 @@
             }
         }
         <div class="col-10 offset-1 text-center">
-            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddSponsorSection())">Add Item</button>
+            <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" onclick="@(() => AddSponsorSection())">Add Sponsor</button>
         </div>
     </div>
     <!-- END SPONSORS -->
@@ -414,7 +414,7 @@
                 }
             }
             <div class="col-10 offset-1 text-center">
-                    <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" id="addItemButton" onclick="@(() => AddRoomSection())">Add Item</button>
+                    <button type="button" class="btn btn-primary mt-3 mr-3 align-content-center" id="addItemButton" onclick="@(() => AddRoomSection())">Add Room</button>
             </div>
         </div>
     </div>
