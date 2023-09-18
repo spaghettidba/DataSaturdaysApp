@@ -65,8 +65,6 @@ builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 // Add custom stuff
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddMvcCore().AddApiExplorer();
 
