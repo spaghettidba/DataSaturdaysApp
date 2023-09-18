@@ -6,9 +6,9 @@
 @using Microsoft.AspNetCore.Identity;
 @using Microsoft.AspNetCore.Razor;
 @using Microsoft.AspNetCore.Authorization;
+@using System.Security.Claims;
 
 @inject IEventService EventService
-@inject IUserService UserService
 @inject IJSRuntime JSRuntime
 
 @attribute [Authorize]
@@ -496,6 +496,7 @@
 
 @code {
     [Parameter] public Guid Id { get; set; }
+    [Parameter] public ClaimsPrincipal User { get; set; }
 
     public Event Item { get; set; } = new Event();
 
@@ -531,15 +532,14 @@
             {
                 await EventService.CreateEvent(Item);
 
-
-
-                /*Organizer org = new Organizer
+                Organizer org = new Organizer
                     {
                         EventId = Item.Id,
-                        Name = User.Identity.Name
-                        Email = User.Identity.Name;
+                        Name = User.Identity.Name,
+                        Email = User.Identity.Name
                 };
-                await EventService.CreateOrganizer(org);*/
+                await EventService.CreateOrganizer(org);
+
                 await JSRuntime.InvokeVoidAsync("history.back");
             }
             else
