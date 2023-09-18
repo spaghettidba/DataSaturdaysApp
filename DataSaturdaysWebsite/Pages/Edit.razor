@@ -6,7 +6,6 @@
 @using Microsoft.AspNetCore.Identity;
 @using Microsoft.AspNetCore.Razor;
 @using Microsoft.AspNetCore.Authorization;
-@using System.Security.Claims;
 
 @inject IEventService EventService
 @inject IJSRuntime JSRuntime
@@ -496,7 +495,7 @@
 
 @code {
     [Parameter] public Guid Id { get; set; }
-    [Parameter] public ClaimsPrincipal User { get; set; }
+    [Parameter] public string CurrentUser { get; set; }
 
     public Event Item { get; set; } = new Event();
 
@@ -530,14 +529,15 @@
         {
             if (Item.Id.Equals(Guid.Empty))
             {
-                await EventService.CreateEvent(Item);
+                var eventId = await EventService.CreateEvent(Item);
 
                 Organizer org = new Organizer
                     {
-                        EventId = Item.Id,
-                        Name = User.Identity.Name,
-                        Email = User.Identity.Name
-                };
+                        EventId = eventId,
+                        Name = CurrentUser,
+                        Email = CurrentUser
+                    };
+
                 await EventService.CreateOrganizer(org);
 
                 await JSRuntime.InvokeVoidAsync("history.back");
@@ -567,7 +567,7 @@
                     }
                 }
             }
-            
+
             if (Item.Organizers?.Any() == true)
             {
                 foreach (var Org in Item.Organizers)
@@ -669,8 +669,8 @@
                         }
                     }
                 }
-            }                 
-
+            }
+            StateHasChanged();
         }
         catch (Exception ex)
         {

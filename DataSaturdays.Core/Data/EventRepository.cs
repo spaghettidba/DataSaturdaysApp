@@ -49,7 +49,7 @@ namespace DataSaturdays.Core.Data
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         } 
 
-        public async Task CreateEvent(Event Input)
+        public async Task<Guid> CreateEvent(Event Input)
         {
             try {
                 Input.Id = Guid.NewGuid();
@@ -84,10 +84,12 @@ namespace DataSaturdays.Core.Data
 
                 using var connection = new SqlConnection(_connectionString);
                 await connection.ExecuteAsync(sql, Input);
+                return Input.Id;
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return Guid.Empty;
             }
         }
 

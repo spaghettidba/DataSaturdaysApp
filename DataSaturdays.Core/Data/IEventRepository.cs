@@ -12,7 +12,7 @@ namespace DataSaturdays.Core.Data
         Task<IEnumerable<Event>> GetEvents();
         Task<Event> GetEventByIdAsync(Guid eventId);
         Task<IEnumerable<Event>> GetEventsByUserNameAsync(string userName);
-        Task CreateEvent(Event Input);
+        Task<Guid> CreateEvent(Event Input);
         Task CreateMilestone(Milestone Input);
         Task CreateOrganizer(Organizer Input);
         Task CreateSponsor(Sponsor Input);
