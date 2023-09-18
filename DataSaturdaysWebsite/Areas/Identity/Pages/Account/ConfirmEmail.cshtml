@@ -1,0 +1,18 @@
+﻿@page
+@model DataSaturdaysWebsite.Areas.Identity.Pages.Account.ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm Email";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.StatusMessage != null)
+{
+    <div class="alert alert-info">
+        @Model.StatusMessage
+    </div>
+}
+
+<form method="post">
+    <button type="submit" class="btn btn-primary">Confirm Email</button>
+</form>

@@ -29,7 +29,7 @@ namespace DataSaturdaysWebsite.Services
             }
             await Execute(Options.SendGridKey, subject, message, toEmail);
         }
-
+        
         public async Task Execute(string apiKey, string subject, string message, string toEmail)
         {
             var client = new SendGridClient(apiKey);
@@ -38,7 +38,7 @@ namespace DataSaturdaysWebsite.Services
 
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("DataSaturdays@quantumdatis.com", "Password Recovery"),
+                From = new EmailAddress("DataSaturdays@quantumdatis.com"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

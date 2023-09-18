@@ -6,12 +6,35 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using DataSaturdays.Data;
+using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+        options => {
+            options.SignIn.RequireConfirmedAccount = true;
+        }
+        )
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier; // Usa il nome come identificatore utente
+    options.ClaimsIdentity.UserNameClaimType = ClaimTypes.Name; // Usa il nome come nome utente
+    options.ClaimsIdentity.EmailClaimType = ClaimTypes.Email; // Usa Email come email utente
+});
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -19,6 +42,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.HttpOnly = true;
     //options.Cookie.Expiration 
 
+    options.Cookie.Name = "MioCookie";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
     options.LoginPath = "/Identity/Account/Login";
     options.LogoutPath = "/Identity/Account/Logout";
@@ -26,13 +50,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
     //options.ReturnUrlParameter=""
 });
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(
-        options => {
-            options.SignIn.RequireConfirmedAccount = false;
-        }
-        )
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -48,6 +65,8 @@ builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 // Add custom stuff
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddMvcCore().AddApiExplorer();
 
