@@ -74,16 +74,14 @@
                 }
                 else
                 {
-                    <li class="nav-item text-truncate">
-                        <a class="nav-link js-scroll-trigger" href="/Dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item text-truncate">
-                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" onclick="">Logout</a>
-                    </li>
                     <li class="nav-item">
-                        <a class="nav-link text-$blue-100">@User.Identity.Name</a>
+                        <a class="nav-link text-$blue-100" href="/Dashboard">@User.Identity.Name</a>
+                    </li>
+                    <li class="nav-item text-truncate">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
                     </li>
                 }
+
             </ul>
         </div>
     </nav>

@@ -368,7 +368,7 @@ namespace DataSaturdays.Core.Data
                     @Twitter
                 )
                 """";
-
+                
                 using var connection = new SqlConnection(_connectionString);
                 await connection.ExecuteAsync(sql, Input);
             }
@@ -682,6 +682,28 @@ namespace DataSaturdays.Core.Data
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task<IEnumerable<Event>> GetEventsByUserNameAsync(string UserName)
+        {
+            try
+            {
+                string query = _base_query +
+                """
+                JOIN Organizers ON E.event_id = Organizers.event_id
+                WHERE Organizers.email = @UserName
+                ORDER BY E.event_date DESC
+                """;
+
+                using var connection = new SqlConnection(_connectionString);
+                return await connection.QueryAsync<Event>(query, new { UserName });
+                
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Event>();
             }
         }
     }

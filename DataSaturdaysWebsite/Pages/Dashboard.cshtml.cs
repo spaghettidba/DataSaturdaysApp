@@ -1,5 +1,6 @@
 ﻿using DataSaturdays.Core.Entities;
 using DataSaturdays.Core.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -20,7 +21,8 @@ namespace DataSaturdaysWebsite.Pages
 
         public async Task OnGetAsync()
         {
-            Events = await _eventService.GetEventsByUserAsync(new Guid("5679a422-226f-411a-b9d0-84c2232efe2b"));
+            Events = await _eventService.GetEventsByUserNameAsync(User.Identity.Name);
         }
+
     }
 }

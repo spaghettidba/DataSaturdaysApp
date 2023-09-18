@@ -11,6 +11,7 @@ namespace DataSaturdays.Core.Services
     {
         Task<IEnumerable<Event>> GetEventsAsync();
         Task<IEnumerable<Event>> GetEventsByUserAsync(Guid userId);
+        Task<IEnumerable<Event>> GetEventsByUserNameAsync(string userName);
         Task<Event> GetEventByIdAsync(Guid eventId);
         Task CreateEvent(Event Input);
         Task CreateMilestone(Milestone Input);

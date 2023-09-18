@@ -32,29 +32,35 @@
                         </thead>
                         <tbody>
                             <!-- Events List to show personal events-->
-                            @foreach (var item in Model.Events.OrderBy(s => s.Date))
+                            @if (Model != null)
                             {
-                                <tr>
-                                    <td>
-                                        <div class="hero-box mt-3">
-                                            <a href="/EventEdit/@item.Id">
-                                                <img src="assets/design/logo/10.png" height="65">
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="hero-box mt-3 flex-nowrap text-uppercase">
-                                            <a href="/EventEdit/@item.Id">
-                                                <div class="nav-link">@item.Name</div>
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="hero-box mt-3 flex-nowrap">
-                                            <div class="nav-link">@item.Date.ToString("dd MMMM yyyy")</div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @if (Model.Events.Any())
+                                {
+                                    @foreach (var item in Model.Events.OrderBy(s => s.Date))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="hero-box mt-3">
+                                                    <a href="/EventEdit/@item.Id">
+                                                        <img src="assets/design/logo/10.png" height="65">
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="hero-box mt-3 flex-nowrap text-uppercase">
+                                                    <a href="/EventEdit/@item.Id">
+                                                        <div class="nav-link">@item.Name</div>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="hero-box mt-3 flex-nowrap">
+                                                    <div class="nav-link">@item.Date.ToString("dd MMMM yyyy")</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
                             }
                         </tbody>
                     </table>

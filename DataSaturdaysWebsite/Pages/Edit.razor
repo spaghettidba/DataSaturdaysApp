@@ -2,9 +2,16 @@
 @using DataSaturdays.Core.Entities;
 @using DataSaturdays.Core.Services;
 @using Microsoft.JSInterop;
+@using Microsoft.AspNetCore.Mvc.RazorPages;
+@using Microsoft.AspNetCore.Identity;
+@using Microsoft.AspNetCore.Razor;
+@using Microsoft.AspNetCore.Authorization;
 
 @inject IEventService EventService
+@inject IUserService UserService
 @inject IJSRuntime JSRuntime
+
+@attribute [Authorize]
 
 <EditForm EditContext="_editContext" OnValidSubmit="Save" class="row mr-5 ml-5">
         
@@ -196,7 +203,6 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label for="txtMOrder">Milestone Order</label>
-                                <!--<input class="form-control" title="MOrder" bind="Mil.Order" onchange="(() => MarkToUpdate(Mil))" required />-->
                                 <InputText class="form-control" title="MOrder" @bind-Value="@Mil.Order" placeholder="Enter milestone order" required/>
                         </div>
                     </div>
@@ -421,7 +427,6 @@
     <!-- END VIRTUAL -->
 
     <br/>
-
     <!-- START OTHER -->
     <div class="col-6 pt-3 offset-3 highlight">
         <div data-view-component="true" class="Subhead Subhead--spacious col-6 offset-3">
@@ -480,7 +485,6 @@
        <button type="submit" class="btn btn-primary mt-3 mr-3 align-content-center">Save</button>
        <a class="btn btn-outline-primary mt-3 align-content-center" href="/Dashboard">Cancel</a>        
     </div>
-
     @if (IsSaved)
     {
         <div class="col-2 mt-4 border border-primary rounded text-center text-primary offset-5 d-flex justify-content-center align-items-center" style="height: 40px">
@@ -518,6 +522,7 @@
         }
     }
 
+
     protected async Task Save()
     {
         try
@@ -525,6 +530,16 @@
             if (Item.Id.Equals(Guid.Empty))
             {
                 await EventService.CreateEvent(Item);
+
+
+
+                /*Organizer org = new Organizer
+                    {
+                        EventId = Item.Id,
+                        Name = User.Identity.Name
+                        Email = User.Identity.Name;
+                };
+                await EventService.CreateOrganizer(org);*/
                 await JSRuntime.InvokeVoidAsync("history.back");
             }
             else
@@ -552,7 +567,7 @@
                     }
                 }
             }
-
+            
             if (Item.Organizers?.Any() == true)
             {
                 foreach (var Org in Item.Organizers)
@@ -734,9 +749,4 @@
         Spe.ToDelete = true;
         StateHasChanged();
     }
-
-    /*protected void MarkToUpdate(Milestone Mil)
-    {
-        Mil.IsChanged = true;
-    }*/
 }
