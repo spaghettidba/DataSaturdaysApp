@@ -28,6 +28,7 @@
                                 <th scope="col"></th>
                                 <th scope="col">Event Name</th>
                                 <th scope="col">Date</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,6 +57,11 @@
                                             <td>
                                                 <div class="hero-box mt-3 flex-nowrap">
                                                     <div class="nav-link">@item.Date.ToString("dd MMMM yyyy")</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="hero-box">
+                                                    <button class="btn btn-danger">Delete Event</button>
                                                 </div>
                                             </td>
                                         </tr>
