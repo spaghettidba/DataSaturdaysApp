@@ -38,7 +38,7 @@ namespace DataSaturdaysWebsite.Services
 
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("DataSaturdays@quantumdatis.com"),
+                From = new EmailAddress("support@datasaturdays.com"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
