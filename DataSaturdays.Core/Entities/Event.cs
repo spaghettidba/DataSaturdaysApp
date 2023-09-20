@@ -12,7 +12,7 @@ namespace DataSaturdays.Core.Entities
     {
         public Guid Id { get; set; } = Guid.Empty;
         public string Name { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public bool Virtual { get; set; }
         public string RegistrationURL { get; set; }
