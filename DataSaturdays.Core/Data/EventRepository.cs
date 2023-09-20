@@ -98,6 +98,16 @@ namespace DataSaturdays.Core.Data
             try
             {
                 string sql = """"
+                DELETE FROM Organizers
+                WHERE event_id = @Id
+                DELETE FROM Milestones
+                WHERE event_id = @Id
+                DELETE FROM Precons
+                WHERE event_id = @Id
+                DELETE FROM Sponsors
+                WHERE event_id = @Id
+                DELETE FROM Rooms
+                WHERE event_id = @Id
                 DELETE FROM Events
                 WHERE event_id = @Id
                 """";
@@ -117,8 +127,8 @@ namespace DataSaturdays.Core.Data
             {
                 string sql = """"
                 UPDATE Events
-                SET published = @Published
-                WHERE milestone_id = @Id
+                SET published = '1'
+                WHERE event_id = @Id
                 """";
 
                 using var connection = new SqlConnection(_connectionString);

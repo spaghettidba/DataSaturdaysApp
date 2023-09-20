@@ -25,6 +25,8 @@
                                 <th scope="col"></th>
                                 <th scope="col">Event Name</th>
                                 <th scope="col">Date</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,37 +34,51 @@
                             {
                                 @foreach (var item in Events.OrderBy(s => s.Date))
                                 {
-                                    <tr>
-                                        <td>
-                                            <div class="hero-box mt-3">
-                                                <a href="/EventEdit/@item.Id">
-                                                    <img src="assets/design/logo/10.png" height="65">
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="hero-box mt-3 flex-nowrap text-uppercase">
-                                                <a href="/EventEdit/@item.Id">
-                                                    <div class="nav-link">@item.Name</div>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="hero-box mt-3 flex-nowrap">
-                                                <div class="nav-link">@item.Date.ToString("dd MMMM yyyy")</div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="hero-box">
-                                                <button onclick="@test" class="btn btn-danger">Delete Event</button>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="hero-box">
-                                                <button class="btn btn-primary">Publish</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @if (!item.ToDelete)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="hero-box mt-3">
+                                                    <a href="/EventEdit/@item.Id">
+                                                        <img src="assets/design/logo/10.png" height="65">
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="hero-box mt-3 flex-nowrap text-uppercase">
+                                                    <a href="/EventEdit/@item.Id">
+                                                        <div class="nav-link">@item.Name</div>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="hero-box mt-3 flex-nowrap">
+                                                    <div class="nav-link">@item.Date.ToString("dd MMMM yyyy")</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="hero-box">
+                                                    <button onclick="@(() => DeleteEvent(item))" class="btn btn-danger">Delete Event</button>
+                                                </div>
+                                            </td>
+                                            @if(!item.Published)
+                                            {
+                                                <td>
+                                                    <div class="hero-box">
+                                                        <button onclick="@(() => PublishEvent(item))" class="btn btn-primary">Publish</button>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <div class="hero-box">
+                                                        <button class="btn btn-secondary" disabled>Published</button>
+                                                    </div>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
                                 }
                             }                            
                         </tbody>
@@ -83,5 +99,16 @@
         StateHasChanged();
     }
 
-    private void test() {}
+    private async void DeleteEvent(Event Eve)
+    {
+        Eve.ToDelete = true;
+        await _eventService.DeleteEvent(Eve);
+        StateHasChanged();
+    }
+    private async void PublishEvent(Event Eve)
+    {
+        Eve.Published = true;
+        await _eventService.PublishEvent(Eve);
+        StateHasChanged();
+    }
 }
