@@ -93,6 +93,43 @@ namespace DataSaturdays.Core.Data
             }
         }
 
+        public async Task DeleteEvent(Event Input)
+        {
+            try
+            {
+                string sql = """"
+                DELETE FROM Events
+                WHERE event_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task PublishEvent(Event Input)
+        {
+            try
+            {
+                string sql = """"
+                UPDATE Events
+                SET published = @Published
+                WHERE milestone_id = @Id
+                """";
+
+                using var connection = new SqlConnection(_connectionString);
+                await connection.ExecuteAsync(sql, Input);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         public async Task<Event> GetEventByIdAsync(Guid eventId)
         {
             string query = _base_query +

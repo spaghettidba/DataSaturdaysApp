@@ -103,6 +103,10 @@ namespace DataSaturdays.Core.Services
         {
             await _eventRepository.UpdateSpeaker(Input);
         }
+        public async Task DeleteEvent(Event Input)
+        {
+            await _eventRepository.DeleteEvent(Input);
+        }
         public async Task DeleteMilestone(Milestone Input)
         {
             await _eventRepository.DeleteMilestone(Input);
@@ -126,6 +130,10 @@ namespace DataSaturdays.Core.Services
         public async Task DeleteSpeaker(Speaker Input)
         {
             await _eventRepository.DeleteSpeaker(Input);
+        }
+        public async Task PublishEvent(Event Input)
+        {
+            await _eventRepository.PublishEvent(Input);
         }
     }
 }

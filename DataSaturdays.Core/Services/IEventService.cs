@@ -27,11 +27,13 @@ namespace DataSaturdays.Core.Services
         Task UpdateRoom(Room Input);
         Task UpdatePrecon(Preconference Input);
         Task UpdateSpeaker(Speaker Input);
+        Task DeleteEvent(Event Input);
         Task DeleteMilestone(Milestone Input);
         Task DeleteOrganizer(Organizer Input);
         Task DeleteRoom(Room Input);
         Task DeleteSponsor(Sponsor Input);
         Task DeletePrecon(Preconference Input);
         Task DeleteSpeaker(Speaker Input);
+        Task PublishEvent(Event Input);
     }
 }

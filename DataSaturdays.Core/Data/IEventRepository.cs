@@ -26,6 +26,7 @@ namespace DataSaturdays.Core.Data
         Task UpdateRoom(Room Input);
         Task UpdatePrecon(Preconference Input);
         Task UpdateSpeaker(Speaker Input);
+        Task DeleteEvent(Event Input);
         Task DeleteMilestone(Milestone Input);
         Task DeleteOrganizer(Organizer Input);
         Task DeleteRoom(Room Input);
@@ -33,5 +34,6 @@ namespace DataSaturdays.Core.Data
         Task DeletePrecon(Preconference Input);
         Task DeleteSpeaker(Speaker Input);
         Task<IEnumerable<Event>> GetEventsByUser(Guid userId);
+        Task PublishEvent(Event Input);
     }
 }
