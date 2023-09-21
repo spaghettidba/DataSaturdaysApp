@@ -41,8 +41,6 @@ namespace DataSaturdays.Core.Entities
         public List<Organizer>? Organizers { get; set; } = new();
         public bool Published { get; set; }
 
-        public bool ToDelete { get; set; } = false;
-
         public string GetRegistrationTarget()
         {
             if (OpenRegistrationNewTab)
