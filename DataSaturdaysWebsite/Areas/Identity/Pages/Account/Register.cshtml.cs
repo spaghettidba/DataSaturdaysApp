@@ -84,8 +84,8 @@ namespace DataSaturdays.Areas.Identity.Pages.Account
                             protocol: Request.Scheme);
 
 
-                        /*await _emailSender.SendEmailAsync(Input.Email, "Conferma l'indirizzo email",
-                            $"Conferma il tuo account <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliccando qui</a>.");*/
+                        await _emailSender.SendEmailAsync(Input.Email, "Confirm email address",
+                            $"Confirm your account <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>click here</a>.");
 
                         _logger.LogInformation("User created a new account with password.");
 
