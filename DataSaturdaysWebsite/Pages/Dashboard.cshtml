@@ -1,9 +1,8 @@
 ﻿@page
-@model UserModel
 @{
     ViewData["Title"] = "User Dashboard";
 }
 
 <div class="container-fluid">
-    @(await Html.RenderComponentAsync<Dashboard>(RenderMode.Server, new { CurrentUser = User.Identity.Name }))
+    @(await Html.RenderComponentAsync<Dashboard>(RenderMode.Server, new { CurrentUser = User.Identity.Name, IsAdmin = User.IsInRole("Admin")}))
 </div>

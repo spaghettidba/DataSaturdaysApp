@@ -5,9 +5,6 @@
 }
 
 <div class="container-fluid">
-    @*@(await Html.RenderComponentAsync<Edit>(RenderMode.Server))*@
-
-@*    <Edit Id="24B6327C-F6FC-472F-81E4-6E4349355738"></Edit>*@
 
     @(
         await Html.RenderComponentAsync<Edit>(RenderMode.Server, new { Id = Model.Id, CurrentUser = User.Identity.Name })

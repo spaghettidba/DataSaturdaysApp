@@ -18,11 +18,5 @@ namespace DataSaturdaysWebsite.Pages
             _logger = logger;
             _eventService = eventService;
         }
-
-        public async Task OnGetAsync()
-        {
-            Events = await _eventService.GetEventsByUserNameAsync(User.Identity.Name);
-        }
-
     }
 }

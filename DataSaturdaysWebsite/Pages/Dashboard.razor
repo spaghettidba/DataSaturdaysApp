@@ -30,38 +30,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Events != null && Events.Any())
+                            @if (eventList != null && eventList.Any())
                             {
-                                @foreach (var item in Events.OrderBy(s => s.Date))
+                                @foreach (var item in eventList.OrderBy(s => s.Date))
                                 {
-                                    @if (!item.ToDelete)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <div class="hero-box mt-3">
-                                                    <a href="/EventEdit/@item.Id">
-                                                        <img src="assets/design/logo/10.png" height="65">
-                                                    </a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="hero-box mt-3 flex-nowrap text-uppercase">
-                                                    <a href="/EventEdit/@item.Id">
-                                                        <div class="nav-link">@item.Name</div>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="hero-box mt-3 flex-nowrap">
-                                                    <div class="nav-link">@item.Date.ToString("dd MMMM yyyy")</div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="hero-box">
-                                                    <button onclick="@(() => DeleteEvent(item))" class="btn btn-danger">Delete Event</button>
-                                                </div>
-                                            </td>
-                                            @if(!item.Published)
+                                    <tr>
+                                        <td>
+                                            <div class="hero-box mt-3">
+                                                <a href="/EventEdit/@item.Id">
+                                                    <img src="assets/design/logo/10.png" height="65">
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="hero-box mt-3 flex-nowrap text-uppercase">
+                                                <a href="/EventEdit/@item.Id">
+                                                    <div class="nav-link">@item.Name</div>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="hero-box mt-3 flex-nowrap">
+                                                <div class="nav-link">@item.Date.ToString("dd MMMM yyyy")</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="hero-box">
+                                                <button onclick="@(() => DeleteEvent(item))" class="btn btn-danger">Delete Event</button>
+                                            </div>
+                                        </td>
+                                        @if(IsAdmin)
+                                        {
+                                            @if (!item.Published)
                                             {
                                                 <td>
                                                     <div class="hero-box">
@@ -77,8 +77,8 @@
                                                     </div>
                                                 </td>
                                             }
-                                        </tr>
-                                    }
+                                        }
+                                    </tr>
                                 }
                             }                            
                         </tbody>
@@ -91,18 +91,27 @@
 
 @code {
     [Parameter] public string CurrentUser { get; set; }
+    [Parameter] public bool IsAdmin { get; set; }
     private IEnumerable<Event> Events;
+    List<Event> eventList;
 
     protected override async Task OnInitializedAsync()
     {
-        Events = await _eventService.GetEventsByUserNameAsync(CurrentUser);
+        if (IsAdmin)
+        {
+            Events = await _eventService.GetEventsByAdmin();
+        }
+        else
+        {
+            Events = await _eventService.GetEventsByUserNameAsync(CurrentUser);
+        }
+        eventList = new List<Event>(Events);
         StateHasChanged();
     }
-
     private async void DeleteEvent(Event Eve)
     {
-        Eve.ToDelete = true;
         await _eventService.DeleteEvent(Eve);
+        eventList.Remove(Eve);
         StateHasChanged();
     }
     private async void PublishEvent(Event Eve)
@@ -111,4 +120,5 @@
         await _eventService.PublishEvent(Eve);
         StateHasChanged();
     }
+    
 }

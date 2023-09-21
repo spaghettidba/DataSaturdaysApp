@@ -69,6 +69,11 @@ namespace DataSaturdays.Core.Services
         public async Task<IEnumerable<Event>> GetEventsByUserNameAsync(string userName)
         {
             return await _eventRepository.GetEventsByUserNameAsync(userName);
+        }        
+        
+        public async Task<IEnumerable<Event>> GetEventsByAdmin()
+        {
+            return await _eventRepository.GetEventsByAdmin();
         }
 
         public async Task UpdateEvent(Event Input)

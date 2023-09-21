@@ -754,6 +754,27 @@ namespace DataSaturdays.Core.Data
                 Console.WriteLine(ex.Message);
                 return new List<Event>();
             }
+        }        
+        
+        public async Task<IEnumerable<Event>> GetEventsByAdmin()
+        {
+            try
+            {
+                string query =
+                """
+                SELECT * FROM Events
+                ORDER BY Events.event_date DESC
+                """;
+
+                using var connection = new SqlConnection(_connectionString);
+                return await connection.QueryAsync<Event>(query);
+                
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Event>();
+            }
         }
     }
 }
