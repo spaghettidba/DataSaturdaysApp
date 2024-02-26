@@ -9,19 +9,21 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: '7.0'
-
     - name: List directory contents
-      run: ls -la DataSaturdaysApp
+      run: ls -la ./DataSaturdaysApp
       shell: bash
 
 
     - name: List directory contents
       run: ls -la ./DataSaturdaysApp/DataSaturdaysWebsite/
       shell: bash
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '7.0'
+
+   
 
 
     - name: Restore NuGet packages for DataSaturdaysWebsite
