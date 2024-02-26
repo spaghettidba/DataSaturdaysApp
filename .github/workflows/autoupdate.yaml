@@ -14,6 +14,16 @@ jobs:
       with:
         dotnet-version: '7.0'
 
+    - name: List directory contents
+      run: ls -la DataSaturdaysApp
+      shell: bash
+
+
+    - name: List directory contents
+      run: ls -la ./DataSaturdaysApp/DataSaturdaysWebsite/
+      shell: bash
+
+
     - name: Restore NuGet packages for DataSaturdaysWebsite
       run: dotnet restore ./DataSaturdaysApp/DataSaturdaysWebsite/DataSaturdaysWebsite.csproj
 
