@@ -10,12 +10,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: List directory contents
-      run: ls -la ./DataSaturdaysApp
-      shell: bash
-
-
-    - name: List directory contents
-      run: ls -la ./DataSaturdaysApp/DataSaturdaysWebsite/
+      run: ls -la ./DataSaturdaysWebsite/
       shell: bash
 
     - name: Setup .NET Core
@@ -27,11 +22,11 @@ jobs:
 
 
     - name: Restore NuGet packages for DataSaturdaysWebsite
-      run: dotnet restore ./DataSaturdaysApp/DataSaturdaysWebsite/DataSaturdaysWebsite.csproj
+      run: dotnet restore ./DataSaturdaysWebsite/DataSaturdaysWebsite.csproj
 
     - name: Build DataSaturdaysWebsite with MSBuild
       run: |
         $msbuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
-        & $msbuildPath ./DataSaturdaysApp/DataSaturdaysWebsite/DataSaturdaysWebsite.csproj /p:Configuration=Release /p:Platform="Any CPU" /m
+        & $msbuildPath ./DataSaturdaysWebsite/DataSaturdaysWebsite.csproj /p:Configuration=Release /p:Platform="Any CPU" /m
       shell: pwsh
 
