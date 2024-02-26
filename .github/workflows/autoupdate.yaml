@@ -14,14 +14,12 @@ jobs:
       with:
         dotnet-version: '7.0'
 
-    - name: Restore NuGet packages with MSBuild
+    - name: Restore NuGet packages for DataSaturdaysWebsite
+      run: dotnet restore ./DataSaturdaysApp/DataSaturdaysWebsite/DataSaturdaysWebsite.csproj
+
+    - name: Build DataSaturdaysWebsite with MSBuild
       run: |
         $msbuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
-        & $msbuildPath -t:restore DataSaturdaysApp.sln
+        & $msbuildPath ./DataSaturdaysApp/DataSaturdaysWebsite/DataSaturdaysWebsite.csproj /p:Configuration=Release /p:Platform="Any CPU" /m
       shell: pwsh
 
-    - name: Build with MSBuild
-      run: |
-        $msbuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
-        & $msbuildPath DataSaturdaysApp.sln /p:Configuration=Release /p:Platform="Any CPU" /m
-      shell: pwsh
