@@ -14,8 +14,11 @@ jobs:
       with:
         dotnet-version: '7.0'
 
-    - name: Restore dependencies
-      run: dotnet restore DataSaturdaysApp.sln
+    - name: Restore NuGet packages with MSBuild
+      run: |
+        $msbuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe
+        & $msbuildPath -t:restore DataSaturdaysApp.sln
+      shell: pwsh
 
     - name: Build with MSBuild
       run: |
