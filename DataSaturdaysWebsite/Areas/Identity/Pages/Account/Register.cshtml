@@ -5,14 +5,19 @@
 }
 
 <div class="text-center">
-    <h1 class="mt-5">@ViewData["Title"]</h1>
+    <h1 class="mt-5">Register as a Datasaturdays organizer</h1>
 </div>
 
-<div class="row mr-5 ml-5">
+<div class="row mr-5 ml-5 justify-content-center">
+    <div class="row mt-3 d-flex justify-content-center">
+        <p>
+            <b>PLEASE NOTE:</b>
+            You do not need to register as an attendee.
+            Create an account only if you want to organize an event.
+        </p>
+    </div>
     <div class="row mt-5 d-flex justify-content-center">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3 text-black-center">
                 <label asp-for="Input.Email"></label>
@@ -38,16 +43,11 @@
     <div class="row mt-5 d-flex justify-content-center">
     <div class="col-md-6">
         <section>
-            <h3>Register as an organizer</h3>
             <hr />
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
                     <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
                     </div>
                 }
                 else
