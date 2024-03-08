@@ -101,7 +101,7 @@ namespace DataSaturdays.Core.Data
                 {
                     Id = Guid.NewGuid(), //must have a new Id
                     Name = baseEvent.Name,
-                    Date = baseEvent.Date.AddYears(1), //must have a different date
+                    Date = DateTime.Today,
                     Description = baseEvent.Description,
                     Virtual = baseEvent.Virtual,
                     RegistrationURL = baseEvent.RegistrationURL,
