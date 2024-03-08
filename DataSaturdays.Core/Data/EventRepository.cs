@@ -127,7 +127,7 @@ namespace DataSaturdays.Core.Data
             {
                 string sql = """"
                 UPDATE Events
-                SET published = '1'
+                SET published = @Published
                 WHERE event_id = @Id
                 """";
 

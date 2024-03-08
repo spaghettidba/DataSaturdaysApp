@@ -12,7 +12,7 @@
                 CREATE EVENT
             </a>
         </h1>
-
+        <p>You can only delete unpublished events</p>
         <div id="events-out" class="row align-content-center page-section">
             <div id="events">
                 <h2 class="section-heading text-uppercase pt-4">My Events</h2>
@@ -32,19 +32,19 @@
                         <tbody>
                             @if (Events != null && Events.Any())
                             {
-                                @foreach (var item in Events.OrderBy(s => s.Date))
+                                @foreach (var item in Events.OrderByDescending(s => s.Date))
                                 {
                                     <tr>
                                         <td>
                                             <div class="hero-box mt-3">
-                                                <a href="/EventEdit/@item.Id">
+                                                <a href="@GetLink(item)">
                                                     <img src="assets/design/logo/10.png" height="65">
                                                 </a>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="hero-box mt-3 flex-nowrap text-uppercase">
-                                                <a href="/EventEdit/@item.Id">
+                                                <a href="@GetLink(item)">
                                                     <div class="nav-link">@item.Name</div>
                                                 </a>
                                             </div>
@@ -55,9 +55,22 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="hero-box">
-                                                <button onclick="@(() => DeleteEvent(item))" class="btn btn-danger">Delete Event</button>
-                                            </div>
+                                            @if (!item.Published && item.Date > DateTime.UtcNow)
+                                            {
+                                                <div class="hero-box">
+                                                    <button onclick="@(() => DeleteEvent(item))" 
+                                                            class="btn btn-danger"
+                                                            disabled="@(item.Date < DateTime.UtcNow)">
+                                                        Delete Event
+                                                    </button>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="hero-box">
+                                                    <button class="btn btn-secondary" disabled>Delete Event</button>
+                                                </div>
+                                            }
                                         </td>
                                         @if(IsAdmin)
                                         {
@@ -65,7 +78,11 @@
                                             {
                                                 <td>
                                                     <div class="hero-box">
-                                                        <button onclick="@(() => PublishEvent(item))" class="btn btn-primary">Publish</button>
+                                                        <button onclick="@(() => PublishEvent(true, item))"
+                                                                class="btn btn-primary"
+                                                                disabled="@(item.Date < DateTime.UtcNow)">
+                                                            Publish
+                                                        </button>
                                                     </div>
                                                 </td>
                                             }
@@ -73,7 +90,11 @@
                                             {
                                                 <td>
                                                     <div class="hero-box">
-                                                        <button class="btn btn-secondary" disabled>Published</button>
+                                                        <button onclick="@(() => PublishEvent(false, item))" 
+                                                                class="btn btn-secondary"
+                                                                disabled="@(item.Date < DateTime.UtcNow)">
+                                                            Published
+                                                        </button>
                                                     </div>
                                                 </td>
                                             }
@@ -125,12 +146,22 @@
         await LoadData();
         StateHasChanged();
     }
-    private async void PublishEvent(Event Eve)
+    private async void PublishEvent(bool isPublished, Event Eve)
     {
-        Eve.Published = true;
+        Eve.Published = isPublished;
         await _eventService.PublishEvent(Eve);
         await LoadData();
         StateHasChanged();
     }
-    
+    private string GetLink(Event Eve)
+    {
+        if (Eve.Date.AddDays(1) <= DateTime.UtcNow)
+        {
+            return "javascript:void(0);";
+        }
+        else
+        {
+            return $"/EventEdit/{Eve.Id}";
+        }
+    }
 }
