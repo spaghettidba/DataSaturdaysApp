@@ -96,10 +96,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        LoadData();
+        await LoadData();
         StateHasChanged();
     }
-    private async void LoadData()
+    private async Task LoadData()
     {
         try
         {
@@ -116,20 +116,20 @@
         }
         catch(Exception e)
         {
-            
+
         }
     }
     private async void DeleteEvent(Event Eve)
     {
         await _eventService.DeleteEvent(Eve);
-        LoadData();
+        await LoadData();
         StateHasChanged();
     }
     private async void PublishEvent(Event Eve)
     {
         Eve.Published = true;
         await _eventService.PublishEvent(Eve);
-        LoadData();
+        await LoadData();
         StateHasChanged();
     }
     

@@ -762,8 +762,29 @@ namespace DataSaturdays.Core.Data
             {
                 string query =
                 """
-                SELECT * FROM Events
-                ORDER BY Events.event_date DESC
+                SELECT [event_id] AS [Id]
+                ,[name] AS [Name]
+                ,[event_date] AS [Date]
+                ,[virtual] AS [Virtual]
+                ,[description] AS [Description]
+                ,[registration_url] AS [RegistrationURL]
+                ,[callforspeakers_url] AS [CallForSpeakersURL]
+                ,[schedule_url] AS [ScheduleURL]
+                ,[speaker_list_url] AS [SpeakerListURL]
+                ,[volunteer_url] AS [VolunteerRequestURL]
+                ,[hide_top_logo] AS [HideTopLogo]
+                ,[hide_join_room] AS [HideJoinRoom]
+                ,[open_registration_new_tab] AS [OpenRegistrationNewTab]
+                ,[schedule_app] AS [ScheduleApp]
+                ,[schedule_description] AS [ScheduleDescription]
+                ,[venue_map] AS [VenueMap]
+                ,[code_of_conduct] AS [CodeOfConduct]
+                ,[sponsor_benefits] AS [SponsorBenefits]
+                ,[sponsor_menuitem] AS [SponsorMenuItem]
+                ,[precon_description] AS [PreconDescription]
+                ,[published] AS [Published]
+                FROM dbo.Events
+                ORDER BY [Date] DESC
                 """;
 
                 using var connection = new SqlConnection(_connectionString);
