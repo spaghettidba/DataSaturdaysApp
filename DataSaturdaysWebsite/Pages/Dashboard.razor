@@ -55,20 +55,28 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <div class="hero-box">
+                                                <button onclick="@(() => CloneEvent(item))"
+                                                        class="btn btn-info">
+                                                    Clone
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td>
                                             @if (!item.Published && item.Date > DateTime.UtcNow)
                                             {
                                                 <div class="hero-box">
-                                                    <button onclick="@(() => DeleteEvent(item))" 
+                                                    <button onclick="@(() => DeleteEvent(item))"
                                                             class="btn btn-danger"
                                                             disabled="@(item.Date < DateTime.UtcNow)">
-                                                        Delete Event
+                                                        Delete
                                                     </button>
                                                 </div>
                                             }
                                             else
                                             {
                                                 <div class="hero-box">
-                                                    <button class="btn btn-secondary" disabled>Delete Event</button>
+                                                    <button class="btn btn-secondary" disabled>Delete</button>
                                                 </div>
                                             }
                                         </td>
@@ -76,32 +84,32 @@
                                         {
                                             @if (!item.Published)
                                             {
-                                                <td>
-                                                    <div class="hero-box">
-                                                        <button onclick="@(() => PublishEvent(true, item))"
-                                                                class="btn btn-primary"
-                                                                disabled="@(item.Date < DateTime.UtcNow)">
-                                                            Publish
-                                                        </button>
-                                                    </div>
-                                                </td>
+                                            <td>
+                                                <div class="hero-box">
+                                                    <button onclick="@(() => PublishEvent(true, item))"
+                                                            class="btn btn-primary"
+                                                            disabled="@(item.Date < DateTime.UtcNow)">
+                                                        Publish
+                                                    </button>
+                                                </div>
+                                            </td>
                                             }
                                             else
                                             {
-                                                <td>
-                                                    <div class="hero-box">
-                                                        <button onclick="@(() => PublishEvent(false, item))" 
-                                                                class="btn btn-secondary"
-                                                                disabled="@(item.Date < DateTime.UtcNow)">
-                                                            Published
-                                                        </button>
-                                                    </div>
-                                                </td>
+                                            <td>
+                                                <div class="hero-box">
+                                                    <button onclick="@(() => PublishEvent(false, item))"
+                                                            class="btn btn-secondary"
+                                                            disabled="@(item.Date < DateTime.UtcNow)">
+                                                        Published
+                                                    </button>
+                                                </div>
+                                            </td>
                                             }
                                         }
                                     </tr>
                                 }
-                            }                            
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -150,6 +158,12 @@
     {
         Eve.Published = isPublished;
         await _eventService.PublishEvent(Eve);
+        await LoadData();
+        StateHasChanged();
+    }
+    private async void CloneEvent(Event Eve)
+    {
+        await _eventService.CloneEvent(Eve); 
         await LoadData();
         StateHasChanged();
     }

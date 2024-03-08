@@ -21,6 +21,11 @@ namespace DataSaturdays.Core.Services
              return await _eventRepository.CreateEvent(Input);
         }
 
+        public async Task<Guid> CloneEvent(Event baseEvent)
+        {
+            return await _eventRepository.CloneEvent(baseEvent);
+        }
+
         public async Task CreateMilestone(Milestone Input)
         {
             await _eventRepository.CreateMilestone(Input);

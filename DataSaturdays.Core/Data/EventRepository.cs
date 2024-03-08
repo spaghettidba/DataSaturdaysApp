@@ -93,6 +93,45 @@ namespace DataSaturdays.Core.Data
             }
         }
 
+        public async Task<Guid> CloneEvent(Event baseEvent)
+        {
+            try
+            {
+                Event clone = new Event
+                {
+                    Id = Guid.NewGuid(), //must have a new Id
+                    Name = baseEvent.Name,
+                    Date = baseEvent.Date.AddYears(1), //must have a different date
+                    Description = baseEvent.Description,
+                    Virtual = baseEvent.Virtual,
+                    RegistrationURL = baseEvent.RegistrationURL,
+                    CallForSpeakersURL = baseEvent.CallForSpeakersURL,
+                    ScheduleURL = baseEvent.ScheduleURL,
+                    ScheduleDescription = baseEvent.ScheduleDescription,
+                    SpeakerListURL = baseEvent.SpeakerListURL,
+                    VolunteerRequestURL = baseEvent.VolunteerRequestURL,
+                    HideTopLogo = baseEvent.HideTopLogo,
+                    HideJoinRoom = baseEvent.HideJoinRoom,
+                    OpenRegistrationNewTab = baseEvent.OpenRegistrationNewTab,
+                    ScheduleApp = baseEvent.ScheduleApp,
+                    VenueMap = baseEvent.VenueMap,
+                    CodeOfConduct = baseEvent.CodeOfConduct,
+                    SponsorBenefits = baseEvent.SponsorBenefits,
+                    SponsorMenuItem = baseEvent.SponsorMenuItem,
+                    PreconDescription = baseEvent.PreconDescription,
+                    //clone does not copy relationships like Rooms, Milestones, etc.
+                    Published = false
+                };
+
+                return await CreateEvent(clone);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Guid.Empty;
+            }
+        }
+
         public async Task DeleteEvent(Event Input)
         {
             try
