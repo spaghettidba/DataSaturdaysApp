@@ -173,6 +173,10 @@ Get-ChildItem "C:\GitHub\DataSaturdays\_data\events" | % {
                 if(-not $sponsor.ContainsKey("sponsor_id")) {
                     $sponsor.Add("sponsor_id",(new-guid))
                 }
+                if(-not $sponsor.ContainsKey("name")) {
+                    $sponsor.Add("name",$theGuid.ToString())
+                }
+
 
                 if(-not ((-not $sponsor.ContainsKey("image")) -and (-not $sponsor.ContainsKey("link")) -and (-not $sponsor.ContainsKey("width")) -and (-not $sponsor.ContainsKey("height")))) {
 
